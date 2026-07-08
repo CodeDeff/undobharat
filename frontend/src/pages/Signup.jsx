@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 
 const Signup = () => {
 
@@ -10,6 +10,7 @@ const Signup = () => {
     role: '',
   });
 
+    const nameRef= useRef(null);
 
     const handleChange = (e) => {
     setFormData({
@@ -23,6 +24,13 @@ const Signup = () => {
         e.preventDefault();
         console.log("FormData:", formData);
     }
+
+
+    useEffect(()=>{
+        nameRef.current.focus();
+    },[])
+
+
 
   return (
        <div className="signup flex flex-col items-center justify-center p-4"  >
@@ -42,10 +50,10 @@ const Signup = () => {
                         id="name" 
                         required 
                         name="name"
-                           value={formData.name}
+                        value={formData.name}
                         placeholder="John Doe"
                         onChange={handleChange}
-                      
+                        ref={nameRef}
                         className="input-field w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                         />
                 </div>
@@ -118,7 +126,7 @@ const Signup = () => {
             </div>
             <div className="text-center text-sm text-gray-600">
                 Already have an account? 
-                <a href="./login" className="link-signin text-indigo-600 hover:text-indigo-500 font-medium">
+                <a href="./signin" className="link-signin text-indigo-600 hover:text-indigo-500 font-medium">
                     Login
                 </a>
             </div>
