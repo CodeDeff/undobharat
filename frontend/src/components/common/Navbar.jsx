@@ -32,7 +32,7 @@ const Navbar = () => {
             <a href="#conc" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
               Contact
             </a>
-            <Link to="/login" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
+            <Link to="/auth/signin" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
               Login
             </Link>
             <Link to="/admin" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
