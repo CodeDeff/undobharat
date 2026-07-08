@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-const signin = () => {
+const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const emailref= useRef(null);
 
@@ -130,4 +130,4 @@ const signin = () => {
   )
 }
 
-export default signin
+export default Signin
