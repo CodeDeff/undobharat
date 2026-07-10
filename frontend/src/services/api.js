@@ -1,0 +1,14 @@
+import axios from "axios";
+
+const localhost = "http://localhost:3000/api";
+const production = "https://undobharat.onrender.com";
+const baseURL = process.env.NODE_ENV === "production" ? production : localhost;
+
+const api = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export default api;
