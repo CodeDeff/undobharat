@@ -4,10 +4,11 @@ const Signup = () => {
 
 
       const [formData, setFormData] = useState({
-    name: '',
+    fullname: '',
     email: '',
     password: '',
     role: '',
+    secretCode:''
   });
 
     const nameRef= useRef(null);
@@ -44,13 +45,13 @@ const Signup = () => {
             <div className="space-y-4">
                 {/* <!-- Full Name --> */}
                 <div>
-                    <label htmlFor='name' className="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
+                    <label htmlFor='fullname' className="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
                     <input 
                         type="text" 
-                        id="name" 
+                        id="fullname" 
                         required 
-                        name="name"
-                        value={formData.name}
+                        name="fullname"
+                        value={formData.fullname}
                         placeholder="John Doe"
                         onChange={handleChange}
                         ref={nameRef}
@@ -100,7 +101,7 @@ const Signup = () => {
                 <select
                   id="role"
                   name="role"
-        type="text"
+                  type="text"
                   value={formData.role}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 hover:cursor-pointer"
@@ -119,6 +120,24 @@ const Signup = () => {
                
               </div>
             </div>
+
+
+            {/* Admin Secret Code */}
+            {formData.role === "Admin" && (
+              <div>
+                <label htmlFor='secretCode' className="block text-sm font-medium text-gray-700 mb-1">Secret Code*</label>
+                <input
+                  type="password"
+                  name="secretCode"
+                  id="secretCode"
+                  value={formData.secretCode}
+                  onChange={handleChange}
+                  required
+                  className="input-field w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  placeholder="Enter Secret Code"
+                />
+              </div>
+            )}
 
                     {/* registerButton */}
              <input type="submit"  className=" w-70 ml-13 text-gray-700 hover:text-blue-500 font-medium border-2 border-solid hover:cursor-pointer mt-2 px-3 py-2  rounded"  value={"Register"}/>
