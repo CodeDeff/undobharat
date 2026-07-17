@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Container } from '@mui/material';
-import Header from '../components/Header';
-import ProfileCard from '../components/ProfileCard';
-import StatsGrid from '../components/StatsGrid';
-import SearchFilters from '../components/SearchFilters';
-import StatusTabs from '../components/StatusTabs';
-import ReportNowButton from '../components/ReportNowButton';
-import ReportsList from '../components/ReportsList';
-import LoadMoreReports from '../components/LoadMoreReports';
-import BottomNavBar from '../components/BottomNavigation';
+import { Box, Grid, Container } from '@mui/material';
+import Header from '../../../components/userComponents/Header';
+import ProfileCard from '../../../components/userComponents/ProfileCard';
+import StatsGrid from '../../../components/userComponents/StatsGrid';
+import SearchFilters from '../../../components/userComponents/SearchFilters';
+import StatusTabs from '../../../components/userComponents/StatusTabs';
+import ReportNowButton from '../../../components/userComponents/ReportNowButton';
+import ReportsList from '../../../components/userComponents/ReportsList';
+import LoadMoreReports from '../../../components/userComponents/LoadMoreReports';
+import BottomNavBar from '../../../components/userComponents/BottomNavigation';
 
 const sampleReports = [
   {
@@ -86,57 +86,44 @@ const UserProfilePage = () => {
         flexDirection: 'column',
       }}
     >
-      {/* Mobile-first centered layout container */}
-      <Box
+      {/* Sticky Header */}
+      <Header />
+
+      {/* Main Responsive Container */}
+      <Container
+        maxWidth="lg"
         sx={{
-          width: '100%',
-          maxWidth: { xs: '100%', sm: '600px' },
-          mx: 'auto',
-          backgroundColor: '#ffffff',
-          boxShadow: { sm: '0px 0px 24px rgba(0, 0, 0, 0.03)' },
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative',
+          flexGrow: 1,
+          px: { xs: 0, sm: 3, md: 4 },
+          py: { xs: 2, sm: 3, md: 4 },
+          pb: 12, // extra padding for bottom navigation
         }}
       >
-        {/* Sticky Header */}
-        <Header />
-
-        {/* Scrollable Content Area */}
-        <Box sx={{ flexGrow: 1, pb: 4 }}>
-          <Container maxWidth={false} disableGutters sx={{ px: { xs: 0, sm: 3 } }}>
-            {/* User Profile Card */}
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+          {/* Left Column on Desktop / Top on Mobile */}
+          <Grid item xs={12} md={4}>
             <ProfileCard />
-
-            {/* Stats Summary Section */}
-            <StatsGrid />
-
-            {/* Action Call Button */}
             <ReportNowButton />
+          </Grid>
 
-            {/* Search and Filters */}
+          {/* Right Column on Desktop / Bottom on Mobile */}
+          <Grid item xs={12} md={8}>
+            <StatsGrid />
             <SearchFilters
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               onFilterClick={handleFilterClick}
               onSortClick={handleSortClick}
             />
-
-            {/* Horizontal Scroll Status Tabs */}
             <StatusTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
-            {/* Interactive Reports List */}
             <ReportsList reports={filteredReports} />
-
-            {/* Load More Button */}
             <LoadMoreReports onClick={handleLoadMore} />
-          </Container>
-        </Box>
+          </Grid>
+        </Grid>
+      </Container>
 
-        {/* Fixed Bottom Navigation */}
-        <BottomNavBar />
-      </Box>
+      {/* Fixed Bottom Navigation */}
+      <BottomNavBar />
     </Box>
   );
 };

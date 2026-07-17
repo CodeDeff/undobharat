@@ -37,7 +37,7 @@ const StatsGrid = () => {
     <Box sx={{ mt: 3, mx: { xs: 2, sm: 0 } }}>
       <Grid container spacing={2}>
         {stats.map((stat, index) => (
-          <Grid item xs={6} key={index}>
+          <Grid item xs={6} md={3} key={index}>
             <Card
               sx={{
                 borderRadius: '12px',

@@ -4,7 +4,7 @@ import Home from './pages/Home'
 import Signup from './features/auth/pages/Signup'
 import Signin from './features/auth/pages/Signin'
 import WeAreWorking from './components/common/WeAreWorking'
-import UserProfilePage from './pages/UserProfilePage'
+import UserProfilePage from './features/user/pages/UserProfilePage'
  
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route  path='auth/signup' element={<Signup/>} />
         <Route path='auth/signin' element={<Signin/>} />
-        <Route path='/user-profile' element={<UserProfilePage />} />
+        <Route path='/user/home' element={<UserProfilePage />} />
         <Route path='*' element={<WeAreWorking/>} />
       </Routes>
     </div>

@@ -17,7 +17,7 @@ const BottomNavBar = () => {
         left: '50%',
         transform: 'translateX(-50%)',
         width: '100%',
-        maxWidth: { xs: '100%', sm: '600px' },
+        maxWidth: { xs: '100%', md: '1200px' },
         zIndex: 1200,
         boxShadow: '0 -4px 16px rgba(0, 0, 0, 0.06)',
         borderTop: '1px solid #E5E7EB',
