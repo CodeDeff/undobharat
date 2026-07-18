@@ -1,7 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const closeMenu = () => setIsMenuOpen(false)
+
   return (
     <div>
       <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -28,15 +32,12 @@ const Navbar = () => {
             <Link to="/report-an-issue-now" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
               Report Issue
             </Link>
-            
+
             <a href="#conc" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
               Contact
             </a>
             <Link to="/auth/signin" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
               Login
-            </Link>
-            <Link to="/admin" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
-              Admin
             </Link>
           </div>
 
@@ -47,36 +48,40 @@ const Navbar = () => {
             Report Now
           </Link>
 
-          <button id="mobile-menu-button" className="md:hidden text-gray-700 focus:outline-none">
+          <button
+            id="mobile-menu-button"
+            className="md:hidden text-gray-700 focus:outline-none"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
             <i className="fas fa-bars text-2xl"></i>
           </button>
         </div>
 
-        <div id="mobile-menu" className="hidden md:hidden bg-white py-2 px-4 shadow-lg">
-          <Link to="/" className="block py-2 text-gray-700 hover:text-blue-500">
+        <div id="mobile-menu" className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-white py-2 px-4 shadow-lg`}>
+          <Link to="/" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
             Home
           </Link>
-          <Link to="/about" className="block py-2 text-gray-700 hover:text-blue-500">
+          <Link to="/about" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
             About
           </Link>
-          <a href="#report" className="block py-2 text-gray-700 hover:text-blue-500">
+          <Link to="/report-an-issue-now" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
             Report Issue
-          </a>
-          <a href="#conc" className="block py-2 text-gray-700 hover:text-blue-500">
+          </Link>
+          <a href="#conc" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
             Contact
           </a>
-          <Link to="/login" className="block py-2 text-gray-700 hover:text-blue-500">
+          <Link to="/auth/signin" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
             Login
           </Link>
-          <Link to="/admin" className="block py-2 text-gray-700 hover:text-blue-500">
-            Admin
-          </Link>
-          <a
-            href="#report"
+          <Link
+            to="/report-an-issue-now"
             className="block my-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium text-center transition duration-300"
+            onClick={closeMenu}
           >
             Report Now
-          </a>
+          </Link>
         </div>
       </nav>
     </div>
