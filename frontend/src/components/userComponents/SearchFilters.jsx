@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, TextField, InputAdornment, IconButton, Button } from '@mui/material';
+import { Box, TextField, InputAdornment, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
