@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/common/Navbar';
-import Footer from '../components/common/Footer';
-import IssueDetails from '../components/Report/IssueDetails';
-import LocationDetails from '../components/Report/LocationDetails';
-import EvidenceSection from '../components/Report/EvidenceSection';
-import ReviewSubmit from '../components/Report/ReviewSubmit';
-import '../styles/report.css';
+import Navbar from '../../../components/common/Navbar';
+import Footer from '../../../components/common/Footer';
+import IssueDetails from '../../../components/Report/IssueDetails';
+import LocationDetails from '../../../components/Report/LocationDetails';
+import EvidenceSection from '../../../components/Report/EvidenceSection';
+import ReviewSubmit from '../../../components/Report/ReviewSubmit';
+import '../../../styles/report.css';
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -99,6 +99,7 @@ const ReportNow = () => {
     const rand = Math.floor(100000 + Math.random() * 900000);
     setReferenceId(`UB-${year}-${rand}`);
     setIsSubmitted(true);
+    console.log("FormData:", reportData)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
