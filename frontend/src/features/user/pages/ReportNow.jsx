@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/common/Navbar';
-import Footer from '../components/common/Footer';
+import Navbar from "../../../components/common/Navbar";
+import Footer from "../../../components/common/Footer";
 
-// Step 1 subcomponents
-import ProgressSection from '../components/Report/ProgressSection';
-import VerifiedIdentityCard from '../components/Report/VerifiedIdentityCard';
-import IdentityInformation from '../components/Report/IdentityInformation';
-import SecurityNotice from '../components/Report/SecurityNotice';
-import BottomNavigation from '../components/Report/BottomNavigation';
+import ProgressSection from "../../../components/Report/ProgressSection";
+import VerifiedIdentityCard from "../../../components/Report/VerifiedIdentityCard";
+import IdentityInformation from "../../../components/Report/IdentityInformation";
+import SecurityNotice from "../../../components/Report/SecurityNotice";
+import BottomNavigation from "../../../components/Report/BottomNavigation";
 
-// Steps 2-5 subcomponents
-import IssueDetails from '../components/Report/IssueDetails';
-import LocationDetails from '../components/Report/LocationDetails';
-import EvidenceSection from '../components/Report/EvidenceSection';
-import ReviewSubmit from '../components/Report/ReviewSubmit';
+import IssueDetails from "../../../components/Report/IssueDetails";
+import LocationDetails from "../../../components/Report/LocationDetails";
+import EvidenceSection from "../../../components/Report/EvidenceSection";
+import ReviewSubmit from "../../../components/Report/ReviewSubmit";
 
-import '../styles/report.css';
+import "../../../styles/report.css";
+
 
 // Material UI icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -27,7 +26,7 @@ import ShieldIcon from '@mui/icons-material/ShieldOutlined';
 
 const ReportNow = () => {
   const navigate = useNavigate();
-   const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1);
   const [reportData, setReportData] = useState({
     // Step 1: Personal Details (All empty by default)
     fullName: '',
@@ -171,7 +170,7 @@ const ReportNow = () => {
       const tempErrors = {};
       let firstErrorField = null;
       const fieldsToValidate = ['fullName', 'aadhaar', 'phone', 'alternatePhone', 'email', 'language'];
-      
+
       fieldsToValidate.forEach((field) => {
         const errorMsg = validateField(field, reportData[field]);
         if (errorMsg) {
@@ -225,6 +224,7 @@ const ReportNow = () => {
     const rand = Math.floor(100000 + Math.random() * 900000);
     setReferenceId(`UB-${year}-${rand}`);
     setIsSubmitted(true);
+    console.log("FormData:", reportData)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
