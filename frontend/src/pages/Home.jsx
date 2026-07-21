@@ -9,10 +9,14 @@ import Navbar from '../components/common/Navbar'
 
 
 const Home = () => {
+
+  const gotoPage= async()=>{
+    console.log("Under Working...");
+  }
   return (
     <div>
         <Navbar/>
-        <Hero/>
+        <Hero gotoPage={gotoPage} />
         <Mission/>
         <ProplemTypes/>
         <CTA/>
