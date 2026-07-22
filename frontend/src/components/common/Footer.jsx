@@ -43,7 +43,7 @@ const Footer = () => {
                         </li>
                         <li className="flex items-center space-x-2">
                             <i className="fas fa-map-marker-alt text-gray-300"></i>
-                            <span className="text-gray-300">Anjanapally, Telangana, India</span>
+                            <span className="text-gray-300">Anjanapally, Telangana, India.</span>
                         </li>
                     </ul>
                 </div>
