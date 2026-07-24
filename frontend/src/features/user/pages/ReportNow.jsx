@@ -1,24 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../../../components/common/Navbar';
-import Footer from '../../../components/common/Footer';
-import IssueDetails from '../../../components/Report/IssueDetails';
-import LocationDetails from '../../../components/Report/LocationDetails';
-import EvidenceSection from '../../../components/Report/EvidenceSection';
-import ReviewSubmit from '../../../components/Report/ReviewSubmit';
-import '../../../styles/report.css';
+import Navbar from "../../../components/common/Navbar";
+import Footer from "../../../components/common/Footer";
 
+import ProgressSection from "../../../components/Report/ProgressSection";
+import VerifiedIdentityCard from "../../../components/Report/VerifiedIdentityCard";
+import IdentityInformation from "../../../components/Report/IdentityInformation";
+import SecurityNotice from "../../../components/Report/SecurityNotice";
+import BottomNavigation from "../../../components/Report/BottomNavigation";
+
+import IssueDetails from "../../../components/Report/IssueDetails";
+import LocationDetails from "../../../components/Report/LocationDetails";
+import EvidenceSection from "../../../components/Report/EvidenceSection";
+import ReviewSubmit from "../../../components/Report/ReviewSubmit";
+
+import "../../../styles/report.css";
+
+// Material UI icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ShieldIcon from '@mui/icons-material/ShieldOutlined';
 import SuccessIcon from '@mui/icons-material/CheckCircle';
 import PrintIcon from '@mui/icons-material/Print';
-import VerifiedIcon from '@mui/icons-material/VerifiedUser';
+import ShieldIcon from '@mui/icons-material/ShieldOutlined';
 
 const ReportNow = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [reportData, setReportData] = useState({
+    // Step 1: Personal Details (All empty by default)
+    fullName: '',
+    aadhaar: '',
+    phone: '',
+    alternatePhone: '',
+    email: '',
+    language: '',
+
+    // Steps 2-5: Grievance Details
     issueCategory: '',
     issueTitle: '',
     description: '',
@@ -29,8 +46,6 @@ const ReportNow = () => {
     pincode: '',
     priority: 'Low',
     anonymous: false,
-    phone: '',
-    email: '',
     images: [],
   });
 
@@ -38,22 +53,91 @@ const ReportNow = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [referenceId, setReferenceId] = useState('');
 
-  // Step information
-  const steps = [
-    { number: 1, title: 'Issue Details', percent: '25%' },
-    { number: 2, title: 'Location Details', percent: '50%' },
-    { number: 3, title: 'Evidence & Contacts', percent: '75%' },
-    { number: 4, title: 'Review & Submit', percent: '100%' },
+  // 5-step metadata
+  const stepsMetadata = [
+    { number: 1, title: 'Personal Details', percent: 20 },
+    { number: 2, title: 'Issue Details', percent: 40 },
+    { number: 3, title: 'Location Details', percent: 60 },
+    { number: 4, title: 'Evidence & Contacts', percent: 80 },
+    { number: 5, title: 'Review & Submit', percent: 100 },
   ];
+
+  // Specific validator for Step 1 fields
+  const validateField = (name, value) => {
+    let errorMsg = '';
+    switch (name) {
+      case 'fullName':
+        if (!value || !value.trim()) {
+          errorMsg = 'Please enter your full name.';
+        } else if (value.trim().length < 3) {
+          errorMsg = 'Full name must be at least 3 characters.';
+        } else if (value.trim().length > 50) {
+          errorMsg = 'Full name must be at most 50 characters.';
+        } else if (!/^[A-Za-z\s]+$/.test(value)) {
+          errorMsg = 'Only alphabets and spaces are allowed.';
+        }
+        break;
+      case 'aadhaar': {
+        const cleanAadhaar = value.replace(/\s/g, '');
+        if (!cleanAadhaar) {
+          errorMsg = 'Aadhaar number is required.';
+        } else if (!/^\d+$/.test(cleanAadhaar)) {
+          errorMsg = 'Aadhaar number must contain digits only.';
+        } else if (cleanAadhaar.length !== 12) {
+          errorMsg = 'Aadhaar number must contain exactly 12 digits.';
+        }
+        break;
+      }
+      case 'phone':
+        if (!value || !value.trim()) {
+          errorMsg = 'Phone number is required.';
+        } else if (!/^[6-9]\d{9}$/.test(value.trim())) {
+          errorMsg = 'Please enter a valid mobile number.';
+        }
+        break;
+      case 'alternatePhone':
+        if (value && value.trim() && !/^[6-9]\d{9}$/.test(value.trim())) {
+          errorMsg = 'Please enter a valid mobile number.';
+        }
+        break;
+      case 'email':
+        if (!value || !value.trim()) {
+          errorMsg = 'Email address is required.';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
+          errorMsg = 'Please enter a valid email address.';
+        }
+        break;
+      case 'language':
+        if (!value) {
+          errorMsg = 'Please select a preferred communication language.';
+        }
+        break;
+      default:
+        break;
+    }
+    return errorMsg;
+  };
+
+  const handleFieldBlur = (name, value) => {
+    const errorMsg = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+  };
+
+  const handleFieldChange = (name, value) => {
+    if (errors[name]) {
+      const errorMsg = validateField(name, value);
+      setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+    }
+  };
 
   // Validation rules per step
   const validateStep = (currentStep) => {
     const tempErrors = {};
-    if (currentStep === 1) {
+    if (currentStep === 2) {
       if (!reportData.issueCategory) tempErrors.issueCategory = 'Please select an issue category.';
       if (!reportData.issueTitle.trim()) tempErrors.issueTitle = 'Please enter an issue title.';
       if (!reportData.description.trim()) tempErrors.description = 'Please enter a description.';
-    } else if (currentStep === 2) {
+    } else if (currentStep === 3) {
       if (!reportData.location.trim()) tempErrors.location = 'Please enter the street address/location.';
       if (!reportData.district.trim()) tempErrors.district = 'Please enter the district name.';
       if (!reportData.state) tempErrors.state = 'Please select the state or union territory.';
@@ -62,7 +146,7 @@ const ReportNow = () => {
       } else if (!/^\d{6}$/.test(reportData.pincode)) {
         tempErrors.pincode = 'Pincode must be exactly 6 digits.';
       }
-    } else if (currentStep === 3) {
+    } else if (currentStep === 4) {
       if (!reportData.anonymous) {
         if (!reportData.phone.trim()) {
           tempErrors.phone = 'Please enter your phone number.';
@@ -81,10 +165,40 @@ const ReportNow = () => {
   };
 
   const handleNext = () => {
-    if (validateStep(step)) {
-      setStep((prev) => prev + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (step === 1) {
+      const tempErrors = {};
+      let firstErrorField = null;
+      const fieldsToValidate = ['fullName', 'aadhaar', 'phone', 'alternatePhone', 'email', 'language'];
+
+      fieldsToValidate.forEach((field) => {
+        const errorMsg = validateField(field, reportData[field]);
+        if (errorMsg) {
+          tempErrors[field] = errorMsg;
+          if (!firstErrorField) {
+            firstErrorField = field;
+          }
+        }
+      });
+
+      setErrors(tempErrors);
+
+      if (Object.keys(tempErrors).length > 0) {
+        // Scroll to the first invalid field and focus it
+        setTimeout(() => {
+          const errorElement = document.getElementsByName(firstErrorField)[0];
+          if (errorElement) {
+            errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            errorElement.focus();
+          }
+        }, 100);
+        return;
+      }
+    } else {
+      if (!validateStep(step)) return;
     }
+
+    setStep((prev) => prev + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBack = () => {
@@ -93,8 +207,18 @@ const ReportNow = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleIdentityChange = () => {
+    // Allows resetting or editing identity fields
+    setReportData((prev) => ({
+      ...prev,
+      fullName: '',
+      aadhaar: '',
+      phone: '',
+      email: '',
+    }));
+  };
+
   const handleSubmitReport = () => {
-    // Generate a random official-looking reference number
     const year = new Date().getFullYear();
     const rand = Math.floor(100000 + Math.random() * 900000);
     setReferenceId(`UB-${year}-${rand}`);
@@ -106,13 +230,48 @@ const ReportNow = () => {
   const renderActiveStep = () => {
     switch (step) {
       case 1:
-        return <IssueDetails reportData={reportData} setReportData={setReportData} errors={errors} />;
+        return (
+          <IdentityInformation
+            reportData={reportData}
+            setReportData={setReportData}
+            errors={errors}
+            onFieldBlur={handleFieldBlur}
+            onFieldChange={handleFieldChange}
+          />
+        );
       case 2:
-        return <LocationDetails reportData={reportData} setReportData={setReportData} errors={errors} />;
+        return (
+          <IssueDetails
+            reportData={reportData}
+            setReportData={setReportData}
+            errors={errors}
+          />
+        );
       case 3:
-        return <EvidenceSection reportData={reportData} setReportData={setReportData} errors={errors} />;
+        return (
+          <LocationDetails
+            reportData={reportData}
+            setReportData={setReportData}
+            errors={errors}
+          />
+        );
       case 4:
-        return <ReviewSubmit reportData={reportData} setStep={setStep} onSubmit={handleSubmitReport} errors={errors} />;
+        return (
+          <EvidenceSection
+            reportData={reportData}
+            setReportData={setReportData}
+            errors={errors}
+          />
+        );
+      case 5:
+        return (
+          <ReviewSubmit
+            reportData={reportData}
+            setStep={setStep}
+            onSubmit={handleSubmitReport}
+            errors={errors}
+          />
+        );
       default:
         return null;
     }
@@ -125,67 +284,34 @@ const ReportNow = () => {
       <main className="report-container">
         {!isSubmitted ? (
           <>
-            {/* Step Progress Tracker */}
-            <div className="report-card" style={{ paddingBottom: '20px', marginBottom: '20px' }}>
-              <div className="step-progress-wrapper">
-                <div className="step-progress-header">
-                  <div className="step-indicator-left">
-                    <span className="step-number-circle">{step}</span>
-                    <span className="step-title-text">{steps[step - 1].title}</span>
-                  </div>
-                  <div className="step-progress-right">
-                    Step {step} of 4 • {steps[step - 1].percent}
-                  </div>
-                </div>
-                <div className="progress-bar-track">
-                  <div
-                    className="progress-bar-fill"
-                    style={{ width: steps[step - 1].percent }}
-                  />
-                </div>
-              </div>
+            {/* Step Progress Tracker Card */}
+            <div className="report-card">
+              <ProgressSection
+                currentStep={step}
+                totalSteps={5}
+                title={stepsMetadata[step - 1].title}
+                percentage={stepsMetadata[step - 1].percent}
+              />
 
-              {/* DigiLocker Identity Badge for Govt Portal look */}
+              {/* Verified Identity Card (Rendered for Step 1 only) */}
               {step === 1 && (
-                <div className="verified-identity-card">
-                  <div className="identity-left">
-                    <div className="identity-avatar-placeholder">
-                      <VerifiedIcon />
-                    </div>
-                    <div className="identity-details">
-                      <h4>
-                        Verified Identity <span className="green-dot" />
-                      </h4>
-                      <p>Secured via Aadhaar e-KYC / DigiLocker</p>
-                    </div>
-                  </div>
-                  <button type="button" className="identity-change-btn">
-                    Change
-                  </button>
-                </div>
+                <VerifiedIdentityCard onIdentityChange={handleIdentityChange} />
               )}
 
               {/* Active Step Form Component */}
               {renderActiveStep()}
 
-              {/* Data Protection Shield Banner (except Review Step) */}
-              {step < 4 && (
-                <div className="info-banner" style={{ marginTop: '24px', marginBottom: '0px' }}>
-                  <ShieldIcon className="info-banner-icon" />
-                  <p className="info-banner-text">
-                    Your data is protected under the Digital Personal Data Protection Act (DPDPA). We use 256-bit secure encryption to store and route your report to public officials.
-                  </p>
-                </div>
-              )}
-            </div>
+              {/* Security Shield Notice (Rendered for Step 1 only as per layout flow, or standard steps) */}
+              {step === 1 && <SecurityNotice />}
 
-            {/* Stepper Navigation Buttons */}
-            {step < 4 && (
-              <div className="action-buttons-container">
-                <button type="button" onClick={handleNext} className="btn-primary">
-                  Continue to Step {step + 1}
-                  <ArrowForwardIcon style={{ fontSize: 18 }} />
-                </button>
+              {/* Stepper Navigation Buttons */}
+              <div className="action-buttons-container" style={{ marginTop: '24px' }}>
+                {step < 5 ? (
+                  <button type="button" onClick={handleNext} className="btn-primary">
+                    Continue to Step {step + 1}
+                    <ArrowForwardIcon style={{ fontSize: 18 }} />
+                  </button>
+                ) : null}
 
                 {step > 1 ? (
                   <button type="button" onClick={handleBack} className="btn-secondary">
@@ -199,7 +325,7 @@ const ReportNow = () => {
                   </button>
                 )}
               </div>
-            )}
+            </div>
           </>
         ) : (
           /* Submission Success Acknowledgement Screen */
@@ -244,21 +370,21 @@ const ReportNow = () => {
                   </span>
                 </div>
                 <div>
+                  <span style={{ fontSize: '11px', color: '#6b7280', display: 'block' }}>CITIZEN NAME</span>
+                  <span style={{ fontSize: '13px', color: '#1f2937', fontWeight: '600' }}>
+                    {reportData.fullName}
+                  </span>
+                </div>
+                <div>
                   <span style={{ fontSize: '11px', color: '#6b7280', display: 'block' }}>ISSUE CATEGORY</span>
                   <span style={{ fontSize: '13px', color: '#1f2937', fontWeight: '600' }}>
-                    {reportData.issueCategory}
+                    {reportData.issueCategory || 'Civic Issue'}
                   </span>
                 </div>
                 <div>
                   <span style={{ fontSize: '11px', color: '#6b7280', display: 'block' }}>LOCATION</span>
                   <span style={{ fontSize: '13px', color: '#1f2937', fontWeight: '600' }}>
-                    {reportData.district}, {reportData.state}
-                  </span>
-                </div>
-                <div>
-                  <span style={{ fontSize: '11px', color: '#6b7280', display: 'block' }}>REPORTING MODE</span>
-                  <span style={{ fontSize: '13px', color: '#1f2937', fontWeight: '600' }}>
-                    {reportData.anonymous ? 'Anonymous' : 'Public ID'}
+                    {reportData.district || 'N/A'}, {reportData.state || 'N/A'}
                   </span>
                 </div>
               </div>
@@ -294,6 +420,9 @@ const ReportNow = () => {
           </div>
         )}
       </main>
+
+      {/* Sticky Bottom Navigation Bar */}
+      <BottomNavigation />
 
       <Footer />
     </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PersonIcon from '@mui/icons-material/Person';
 import IssueIcon from '@mui/icons-material/ReportProblem';
 import LocationIcon from '@mui/icons-material/LocationOn';
 import ContactIcon from '@mui/icons-material/ContactPhone';
@@ -52,17 +53,60 @@ const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors 
       {/* Review Card Details */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         
-        {/* Section 1: Issue Details */}
+        {/* Section 1: Personal Details */}
         <div className="review-section">
           <div className="review-section-header">
             <span className="review-section-title">
-              <IssueIcon style={{ color: '#0b5ed7', fontSize: 18 }} />
-              1. Issue Details
+              <PersonIcon style={{ color: '#0b5ed7', fontSize: 18 }} />
+              1. Personal Details
             </span>
             <button
               type="button"
               className="review-edit-link"
               onClick={() => handleEditSection(1)}
+            >
+              Edit
+            </button>
+          </div>
+          <div className="review-grid">
+            <div className="review-item">
+              <span className="review-label">Full Name</span>
+              <span className="review-value">{reportData.fullName || 'Not specified'}</span>
+            </div>
+            <div className="review-item">
+              <span className="review-label">Aadhaar Number (Masked)</span>
+              <span className="review-value">{reportData.aadhaar || 'Not specified'}</span>
+            </div>
+            <div className="review-item">
+              <span className="review-label">Phone Number</span>
+              <span className="review-value">+91 {reportData.phone || 'Not specified'}</span>
+            </div>
+            <div className="review-item">
+              <span className="review-label">Alternate Phone</span>
+              <span className="review-value">{reportData.alternatePhone || 'Not specified'}</span>
+            </div>
+            <div className="review-item">
+              <span className="review-label">Email Address</span>
+              <span className="review-value">{reportData.email || 'Not specified'}</span>
+            </div>
+            <div className="review-item">
+              <span className="review-label">Communication Language</span>
+              <span className="review-value">{reportData.language || 'English'}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 2: Issue Details */}
+        <div className="review-section">
+          <div className="review-section-header">
+            <span className="review-section-title">
+              <IssueIcon style={{ color: '#0b5ed7', fontSize: 18 }} />
+              2. Issue Details
+            </span>
+            <button
+              type="button"
+              className="review-edit-link"
+              onClick={() => handleEditSection(2)}
             >
               Edit
             </button>
@@ -95,17 +139,17 @@ const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors 
           </div>
         </div>
 
-        {/* Section 2: Location Details */}
+        {/* Section 3: Location Details */}
         <div className="review-section">
           <div className="review-section-header">
             <span className="review-section-title">
               <LocationIcon style={{ color: '#0b5ed7', fontSize: 18 }} />
-              2. Location Details
+              3. Location Details
             </span>
             <button
               type="button"
               className="review-edit-link"
-              onClick={() => handleEditSection(2)}
+              onClick={() => handleEditSection(3)}
             >
               Edit
             </button>
@@ -136,17 +180,17 @@ const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors 
           </div>
         </div>
 
-        {/* Section 3: Evidence & Identity */}
+        {/* Section 4: Evidence & Contacts */}
         <div className="review-section">
           <div className="review-section-header">
             <span className="review-section-title">
               <ContactIcon style={{ color: '#0b5ed7', fontSize: 18 }} />
-              3. Identity & Contact Information
+              4. Evidence & Contacts
             </span>
             <button
               type="button"
               className="review-edit-link"
-              onClick={() => handleEditSection(3)}
+              onClick={() => handleEditSection(4)}
             >
               Edit
             </button>
@@ -157,27 +201,15 @@ const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors 
               <span className="review-value" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 {reportData.anonymous ? (
                   <>
-                    <ShieldIcon style={{ color: '#6b7280', fontSize: 18 }} /> Anonymous Reporting Active (Personal info hidden)
+                    <ShieldIcon style={{ color: '#6b7280', fontSize: 18 }} /> Anonymous Reporting Active
                   </>
                 ) : (
                   <>
-                    <CheckedIcon style={{ color: '#22c55e', fontSize: 18 }} /> Verified Identity
+                    <CheckedIcon style={{ color: '#22c55e', fontSize: 18 }} /> Public Identity Mode
                   </>
                 )}
               </span>
             </div>
-            {!reportData.anonymous && (
-              <>
-                <div className="review-item">
-                  <span className="review-label">Contact Phone</span>
-                  <span className="review-value">+91 {reportData.phone || 'Not specified'}</span>
-                </div>
-                <div className="review-item">
-                  <span className="review-label">Contact Email</span>
-                  <span className="review-value">{reportData.email || 'Not specified'}</span>
-                </div>
-              </>
-            )}
             <div className="review-item review-grid-full">
               <span className="review-label">Attached Evidence</span>
               <span className="review-value" style={{ color: '#6b7280', fontSize: 13, fontStyle: 'italic' }}>
