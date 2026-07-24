@@ -61,7 +61,7 @@ const VerifyOTP = () => {
     }
 
     // Success -> Navigate automatically to Login
-    navigate('/login');
+    navigate('/auth/signin');
   };
 
   const handleResend = () => {

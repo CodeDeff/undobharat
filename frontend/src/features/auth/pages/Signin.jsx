@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import authService from '../services/authService'
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [errormsg,SetErrormsg]=useState('')
   const emailref= useRef(null);
+  const navigate=useNavigate();
 
   const formdata={
       email:'',
@@ -22,8 +24,16 @@ const Signin = () => {
 
   const handleSubmit=async(e)=>{
     e.preventDefault();
-    const response= await authService.login(data);
-    console.log(response);
+    try {
+      const response= await authService.login(data);
+    console.log(response.data.data.token);
+     navigate('/')
+    } catch (error) {
+      if(error.status===401){
+        SetErrormsg("Invalid email or password")
+       }
+      
+    }
   }
 
   useEffect(()=>{
@@ -40,7 +50,10 @@ const Signin = () => {
           <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
           <p className="text-sm text-gray-500">Login to continue to your account</p>
         </div>
-
+        {
+          errormsg &&
+        <p className="text-center text-sm text-red-700">{errormsg}</p>
+        }
         {/* Form */}
         <form className="space-y-5">
 

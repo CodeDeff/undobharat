@@ -16,8 +16,6 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route  path='/auth/signup' element={<Signup/>} />
         <Route path='/auth/signin' element={<Signin/>} />
-        <Route path='/login' element={<Signin/>} />
-        <Route path='/verify-otp' element={<VerifyOTP/>} />
         <Route path='/auth/verify-otp' element={<VerifyOTP/>} />
         <Route path='/user/home' element={<UserProfilePage />} />
         <Route path='/user/reportnow' element={<ReportNow />} />
