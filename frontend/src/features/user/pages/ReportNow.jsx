@@ -16,7 +16,6 @@ import ReviewSubmit from "../../../components/Report/ReviewSubmit";
 
 import "../../../styles/report.css";
 
-
 // Material UI icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';

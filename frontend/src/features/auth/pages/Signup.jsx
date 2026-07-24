@@ -1,30 +1,35 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Signup = () => {
+  const navigate = useNavigate();
 
-
-      const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     fullname: '',
     email: '',
     password: '',
     role: '',
-    secretCode:''
+    secretCode: ''
   });
 
-    const nameRef= useRef(null);
+  const nameRef = useRef(null);
 
-    const handleChange = (e) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-
     });
-    }
+  }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("FormData:", formData);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("FormData:", formData);
+    navigate("/verify-otp", {
+      state: {
+        email: formData.email
+      }
+    });
+  }
 
 
     useEffect(()=>{
@@ -144,10 +149,10 @@ const Signup = () => {
            
             </div>
             <div className="text-center text-sm text-gray-600">
-                Already have an account? 
-                <a href="./signin" className="link-signin text-indigo-600 hover:text-indigo-500 font-medium">
+                Already have an account?{' '}
+                <Link to="/auth/signin" className="link-signin text-indigo-600 hover:text-indigo-500 font-medium">
                     Login
-                </a>
+                </Link>
             </div>
             
 
