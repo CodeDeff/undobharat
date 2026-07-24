@@ -4,4 +4,8 @@ const login= (data)=>
     {  return api.post('/auth/login', data);
 }
 
-export default { login };
+const signup= (data)=>{
+    return api.post('/auth/signup', data)
+}
+
+export default { login ,signup};

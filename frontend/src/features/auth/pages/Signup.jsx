@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import authService from '../services/authService'
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Signup = () => {
     role: '',
     secretCode: ''
   });
+  const [error,setError]=useState('')
 
   const nameRef = useRef(null);
 
@@ -21,14 +23,21 @@ const Signup = () => {
     });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("FormData:", formData);
-    navigate("/verify-otp", {
+    try{
+         console.log("FormData:", formData);
+    const response=await authService.signup(formData)
+    console.log("response:", response)
+    navigate("/auth/verify-otp", {
       state: {
         email: formData.email
       }
     });
+    }catch(error){
+      setError("User Already Exits")
+     }
+ 
   }
 
 
@@ -45,6 +54,10 @@ const Signup = () => {
             <h1 className="text-2xl font-bold text-white">Create Your Account</h1>
             <p className="text-indigo-100 mt-1">Join our community today</p>
         </div>
+        {
+          error &&
+        <p className="text-red-700 font-bold text-center mt-1">{error}</p>
+        }
         
                 <form   className="p-6 space-y-6" onSubmit={handleSubmit} >
             <div className="space-y-4">
