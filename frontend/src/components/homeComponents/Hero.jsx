@@ -1,18 +1,7 @@
-import React ,{useEffect,useState} from 'react'
-import {getRole} from './services/role.js'
-
-
-const Hero = ({gotoPage,setRole}) => {
-
+import React from 'react'
  
-useEffect(()=>{
-const fetch= async()=>{
-  const res=await getRole();
-  setRole(res.data?.role)
- }
 
-fetch()
-},[])
+const Hero = ({gotoPage}) => {
 
   return (
 <div>
@@ -24,7 +13,7 @@ fetch()
             <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <button
                 onClick={gotoPage}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md font-bold text-lg transition duration-300">Go To DashBoard
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md font-bold text-lg transition duration-300 hover:cursor-pointer">Go To DashBoard
                 </button>
                 <a href="#how-it-works" className="bg-white hover:bg-gray-100 text-blue-600 px-8 py-3 rounded-md font-bold text-lg transition duration-300">Learn More</a>
             </div>

@@ -7,14 +7,14 @@ import Stats from '../components/homeComponents/StatsUB'
 import Footer from '../components/common/Footer'
 import Navbar from '../components/common/Navbar'
 import {useNavigate} from 'react-router-dom'
-
+import {getRole} from '../../src/components/homeComponents/services/role.js'
 
 const Home = () => {
-  const [role,setRole]=useState('')
   const nav=useNavigate();
+
   const gotoPage= async()=>{
-    console.log("Under Working...");
-    console.log("Role:", role)
+    const res=await getRole();
+    const role=res.data?.role;
     if(role === "user") return nav('/user/home')
   }
   return (
@@ -22,7 +22,7 @@ const Home = () => {
         <Navbar/>
         <Hero 
         gotoPage={gotoPage}
-        setRole={setRole} />
+        />
         <Mission/>
         <ProplemTypes/>
         <CTA/>
