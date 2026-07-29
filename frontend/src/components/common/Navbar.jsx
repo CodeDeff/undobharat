@@ -29,7 +29,7 @@ const Navbar = () => {
               About
             </Link>
 
-            <Link to="/report-an-issue-now" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
+            <Link to="/user/reportnow" className="nav-link text-gray-700 hover:text-blue-500 font-medium">
               Report Issue
             </Link>
 
@@ -42,7 +42,7 @@ const Navbar = () => {
           </div>
 
           <Link
-            to="/report-an-issue-now"
+            to="/user/reportnow"
             className="hidden md:block bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium transition duration-300"
           >
             Report Now
@@ -66,7 +66,7 @@ const Navbar = () => {
           <Link to="/about" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
             About
           </Link>
-          <Link to="/report-an-issue-now" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
+          <Link to="/user/reportnow" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
             Report Issue
           </Link>
           <a href="#conc" className="block py-2 text-gray-700 hover:text-blue-500" onClick={closeMenu}>
@@ -76,7 +76,7 @@ const Navbar = () => {
             Login
           </Link>
           <Link
-            to="/report-an-issue-now"
+            to="/user/reportnow"
             className="block my-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium text-center transition duration-300"
             onClick={closeMenu}
           >

@@ -2,11 +2,15 @@ import React from 'react';
 import { Button, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { useNavigate } from 'react-router-dom';
 
 const ReportNowButton = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ mt: 3, mx: { xs: 2, sm: 0 } }}>
       <Button
+        onClick={() => navigate('/user/reportnow')}
         variant="contained"
         fullWidth
         startIcon={<AddIcon />}

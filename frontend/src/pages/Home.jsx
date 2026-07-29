@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Hero from '../components/homeComponents/Hero'
 import Mission from '../components/homeComponents/MissionsUB'
 import ProplemTypes from '../components/homeComponents/ProplemTypes'
@@ -9,9 +10,10 @@ import Navbar from '../components/common/Navbar'
 
 
 const Home = () => {
+  const navigate = useNavigate()
 
-  const gotoPage= async()=>{
-    console.log("Under Working...");
+  const gotoPage = async () => {
+    navigate('/user/home')
   }
   return (
     <div>
