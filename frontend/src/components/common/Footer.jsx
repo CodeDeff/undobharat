@@ -15,7 +15,11 @@ const Footer = () => {
                         <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
                           <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="logo"/>
                         </div>
-                        <span className="text-xl font-bold">UndoBharat</span>
+                        <div>
+                             <span className="text-xl font-bold">UndoBharat</span> <br />
+                        <span className="text-sm">A CodeDef Product</span>
+                        </div>
+                       
                     </div>
                     <p className="text-gray-300">Empowering citizens to build a better India by solving local problems together.</p>
                 </div>
@@ -64,7 +68,7 @@ const Footer = () => {
      
             <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-2 md:space-y-0 md:space-x-0 mt-12 ml-0 md:ml-5">
                     {/* <p className="mb-0 fs-7 text-center md:text-left">Visitor Count: <%= typeof visitorCount !== 'undefined' ? visitorCount-1 : 'N/A' %></p> */}
-                    <p className="mb-0 fs-7 text-center md:text-left">Designed & Developed By Yuvaraj Kurri</p>
+                    <p className="mb-0 fs-7 text-center md:text-left">Designed & Developed By Team <a href='https://codedef.vercel.app' className='text-sm text-blue-300' target='_blank' >CodeDef</a> </p>
                     <p className="mb-0 fs-1 text-center md:text-left">&copy; 2025 UndoBharat. All rights reserved.</p>
             </div>
         </div>

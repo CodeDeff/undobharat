@@ -14,7 +14,7 @@ const Navbar = () => {
             <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
               <img
                 src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png"
-                alt="logo"
+                alt="UndoBharat"
               />
             </div>
             <Link to="/" className="text-xl font-bold text-gray-800">
