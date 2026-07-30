@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PersonIcon from '@mui/icons-material/Person';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import GlobeIcon from '@mui/icons-material/Public';
 import PhoneIcon from '@mui/icons-material/Smartphone';
 import MailIcon from '@mui/icons-material/Mail';
@@ -10,9 +7,6 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import ErrorIcon from '@mui/icons-material/Error';
 
 const IdentityInformation = ({ reportData, setReportData, errors, onFieldBlur, onFieldChange }) => {
-  const [showAadhaar, setShowAadhaar] = useState(false);
-  const [isAadhaarFocused, setIsAadhaarFocused] = useState(false);
-
   const handleTextChange = (e) => {
     const { name, value } = e.target;
     setReportData((prev) => ({
@@ -33,16 +27,6 @@ const IdentityInformation = ({ reportData, setReportData, errors, onFieldBlur, o
     onFieldChange(name, cleanValue);
   };
 
-  const handleAadhaarChange = (e) => {
-    // Keep only digits and limit to 12 digits
-    const digits = e.target.value.replace(/\D/g, '').slice(0, 12);
-    setReportData((prev) => ({
-      ...prev,
-      aadhaar: digits,
-    }));
-    onFieldChange('aadhaar', digits);
-  };
-
   const handlePhoneChange = (e) => {
     // Keep only digits and limit to 10 digits
     const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -51,30 +35,6 @@ const IdentityInformation = ({ reportData, setReportData, errors, onFieldBlur, o
       [e.target.name]: digits,
     }));
     onFieldChange(e.target.name, digits);
-  };
-
-  const toggleAadhaarVisibility = () => {
-    setShowAadhaar(!showAadhaar);
-  };
-
-  // Helper to format Aadhaar with spaces: "1234 5678 9012"
-  const formatAadhaar = (val) => {
-    const digits = val.replace(/\D/g, '');
-    const matches = digits.match(/\d{1,4}/g);
-    return matches ? matches.join(' ') : '';
-  };
-
-  // Helper to get display value for Aadhaar (masked vs unmasked)
-  const getAadhaarDisplayValue = () => {
-    if (showAadhaar || isAadhaarFocused) {
-      return formatAadhaar(reportData.aadhaar);
-    }
-    // Masked display: "•••• •••• ••••"
-    const digits = reportData.aadhaar.replace(/\D/g, '');
-    if (digits.length === 0) return '';
-    const masked = digits.replace(/./g, '•');
-    const matches = masked.match(/.{1,4}/g);
-    return matches ? matches.join(' ') : '';
   };
 
   const languages = [
@@ -117,37 +77,6 @@ const IdentityInformation = ({ reportData, setReportData, errors, onFieldBlur, o
           <span className="validation-error">
             <ErrorIcon style={{ fontSize: 14, marginRight: 4, verticalAlign: 'middle' }} />
             {errors.fullName}
-          </span>
-        )}
-      </div>
-
-      {/* Aadhaar Number Input */}
-      <div className="input-group">
-        <span className="input-icon">
-          <FingerprintIcon />
-        </span>
-        <input
-          type="text"
-          name="aadhaar"
-          placeholder=" "
-          value={getAadhaarDisplayValue()}
-          onChange={handleAadhaarChange}
-          onFocus={() => setIsAadhaarFocused(true)}
-          onBlur={(e) => {
-            setIsAadhaarFocused(false);
-            onFieldBlur('aadhaar', reportData.aadhaar);
-          }}
-          className={`input-field ${errors.aadhaar ? 'input-error' : ''}`}
-          required
-        />
-        <label className="input-label">Aadhaar Number (Masked)</label>
-        <span className="input-right-action" onClick={toggleAadhaarVisibility} style={{ cursor: 'pointer' }}>
-          {showAadhaar ? <VisibilityIcon style={{ color: '#0b5ed7' }} /> : <VisibilityOffIcon style={{ color: '#0b5ed7' }} />}
-        </span>
-        {errors.aadhaar && (
-          <span className="validation-error">
-            <ErrorIcon style={{ fontSize: 14, marginRight: 4, verticalAlign: 'middle' }} />
-            {errors.aadhaar}
           </span>
         )}
       </div>

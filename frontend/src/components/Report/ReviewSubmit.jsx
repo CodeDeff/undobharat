@@ -3,8 +3,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import IssueIcon from '@mui/icons-material/ReportProblem';
 import LocationIcon from '@mui/icons-material/LocationOn';
 import ContactIcon from '@mui/icons-material/ContactPhone';
-import CheckedIcon from '@mui/icons-material/CheckCircle';
-import ShieldIcon from '@mui/icons-material/Shield';
 import ErrorIcon from '@mui/icons-material/Error';
 
 const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors }) => {
@@ -72,10 +70,6 @@ const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors 
             <div className="review-item">
               <span className="review-label">Full Name</span>
               <span className="review-value">{reportData.fullName || 'Not specified'}</span>
-            </div>
-            <div className="review-item">
-              <span className="review-label">Aadhaar Number (Masked)</span>
-              <span className="review-value">{reportData.aadhaar || 'Not specified'}</span>
             </div>
             <div className="review-item">
               <span className="review-label">Phone Number</span>
@@ -170,6 +164,10 @@ const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors 
               <span className="review-value">{reportData.district || 'Not specified'}</span>
             </div>
             <div className="review-item">
+              <span className="review-label">Mandal</span>
+              <span className="review-value">{reportData.mandal || 'Not specified'}</span>
+            </div>
+            <div className="review-item">
               <span className="review-label">State / UT</span>
               <span className="review-value">{reportData.state || 'Not specified'}</span>
             </div>
@@ -196,20 +194,6 @@ const ReviewSubmit = ({ reportData, setStep, onSubmit, errors: submissionErrors 
             </button>
           </div>
           <div className="review-grid">
-            <div className="review-item review-grid-full">
-              <span className="review-label">Report Mode</span>
-              <span className="review-value" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {reportData.anonymous ? (
-                  <>
-                    <ShieldIcon style={{ color: '#6b7280', fontSize: 18 }} /> Anonymous Reporting Active
-                  </>
-                ) : (
-                  <>
-                    <CheckedIcon style={{ color: '#22c55e', fontSize: 18 }} /> Public Identity Mode
-                  </>
-                )}
-              </span>
-            </div>
             <div className="review-item review-grid-full">
               <span className="review-label">Attached Evidence</span>
               <span className="review-value" style={{ color: '#6b7280', fontSize: 13, fontStyle: 'italic' }}>

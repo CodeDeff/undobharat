@@ -29,7 +29,6 @@ const ReportNow = () => {
   const [reportData, setReportData] = useState({
     // Step 1: Personal Details (All empty by default)
     fullName: '',
-    aadhaar: '',
     phone: '',
     alternatePhone: '',
     email: '',
@@ -42,10 +41,10 @@ const ReportNow = () => {
     location: '',
     landmark: '',
     district: '',
+    mandal: '',
     state: '',
     pincode: '',
     priority: 'Low',
-    anonymous: false,
     images: [],
   });
 
@@ -77,17 +76,6 @@ const ReportNow = () => {
           errorMsg = 'Only alphabets and spaces are allowed.';
         }
         break;
-      case 'aadhaar': {
-        const cleanAadhaar = value.replace(/\s/g, '');
-        if (!cleanAadhaar) {
-          errorMsg = 'Aadhaar number is required.';
-        } else if (!/^\d+$/.test(cleanAadhaar)) {
-          errorMsg = 'Aadhaar number must contain digits only.';
-        } else if (cleanAadhaar.length !== 12) {
-          errorMsg = 'Aadhaar number must contain exactly 12 digits.';
-        }
-        break;
-      }
       case 'phone':
         if (!value || !value.trim()) {
           errorMsg = 'Phone number is required.';
@@ -140,6 +128,7 @@ const ReportNow = () => {
     } else if (currentStep === 3) {
       if (!reportData.location.trim()) tempErrors.location = 'Please enter the street address/location.';
       if (!reportData.district.trim()) tempErrors.district = 'Please enter the district name.';
+      if (!reportData.mandal.trim()) tempErrors.mandal = 'Please enter the mandal.';
       if (!reportData.state) tempErrors.state = 'Please select the state or union territory.';
       if (!reportData.pincode.trim()) {
         tempErrors.pincode = 'Please enter the pincode.';
@@ -147,17 +136,15 @@ const ReportNow = () => {
         tempErrors.pincode = 'Pincode must be exactly 6 digits.';
       }
     } else if (currentStep === 4) {
-      if (!reportData.anonymous) {
-        if (!reportData.phone.trim()) {
-          tempErrors.phone = 'Please enter your phone number.';
-        } else if (!/^\d{10}$/.test(reportData.phone)) {
-          tempErrors.phone = 'Phone number must be exactly 10 digits.';
-        }
-        if (!reportData.email.trim()) {
-          tempErrors.email = 'Please enter your email address.';
-        } else if (!/\S+@\S+\.\S+/.test(reportData.email)) {
-          tempErrors.email = 'Please enter a valid email address.';
-        }
+      if (!reportData.phone.trim()) {
+        tempErrors.phone = 'Please enter your phone number.';
+      } else if (!/^\d{10}$/.test(reportData.phone)) {
+        tempErrors.phone = 'Phone number must be exactly 10 digits.';
+      }
+      if (!reportData.email.trim()) {
+        tempErrors.email = 'Please enter your email address.';
+      } else if (!/\S+@\S+\.\S+/.test(reportData.email)) {
+        tempErrors.email = 'Please enter a valid email address.';
       }
     }
     setErrors(tempErrors);
@@ -168,7 +155,7 @@ const ReportNow = () => {
     if (step === 1) {
       const tempErrors = {};
       let firstErrorField = null;
-      const fieldsToValidate = ['fullName', 'aadhaar', 'phone', 'alternatePhone', 'email', 'language'];
+      const fieldsToValidate = ['fullName', 'phone', 'alternatePhone', 'email', 'language'];
 
       fieldsToValidate.forEach((field) => {
         const errorMsg = validateField(field, reportData[field]);
@@ -212,7 +199,6 @@ const ReportNow = () => {
     setReportData((prev) => ({
       ...prev,
       fullName: '',
-      aadhaar: '',
       phone: '',
       email: '',
     }));

@@ -1,33 +1,31 @@
-import React,{useState} from 'react'
-import Hero from '../components/homeComponents/Hero'
-import Mission from '../components/homeComponents/MissionsUB'
-import ProplemTypes from '../components/homeComponents/ProplemTypes'
-import CTA from '../components/homeComponents/CTA'
-import Stats from '../components/homeComponents/StatsUB'
-import Footer from '../components/common/Footer'
-import Navbar from '../components/common/Navbar'
-import {useNavigate} from 'react-router-dom'
-import {getRole} from '../../src/components/homeComponents/services/role.js'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import Hero from '../components/homeComponents/Hero';
+import Mission from '../components/homeComponents/MissionsUB';
+import ProplemTypes from '../components/homeComponents/ProplemTypes';
+import CTA from '../components/homeComponents/CTA';
+import Stats from '../components/homeComponents/StatsUB';
+import Footer from '../components/common/Footer';
+import Navbar from '../components/common/Navbar';
 
 const Home = () => {
-  const nav=useNavigate();
+  const navigate = useNavigate()
 
-  const gotoPage= async()=>{
-    const res=await getRole();
-    const role=res.data?.role;
-    if(role === "user") return nav('/user/home')
+  const gotoPage = async () => {
+    navigate('/user/home')
   }
   return (
     <div>
-        <Navbar/>
-        <Hero 
+      <Navbar />
+      <Hero
         gotoPage={gotoPage}
-        />
-        <Mission/>
-        <ProplemTypes/>
-        <CTA/>
-        <Stats/>
-        <Footer/>
+      />
+      <Mission />
+      <ProplemTypes />
+      <CTA />
+      <Stats />
+      <Footer />
 
 
     </div>

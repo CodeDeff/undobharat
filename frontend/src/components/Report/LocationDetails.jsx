@@ -2,6 +2,7 @@ import React from 'react';
 import LocationIcon from '@mui/icons-material/LocationOn';
 import LandmarkIcon from '@mui/icons-material/Domain';
 import CityIcon from '@mui/icons-material/LocationCity';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import MapIcon from '@mui/icons-material/Map';
 import PinIcon from '@mui/icons-material/PinDrop';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -90,6 +91,29 @@ const LocationDetails = ({ reportData, setReportData, errors }) => {
           <span className="validation-error">
             <ErrorIcon style={{ fontSize: 14, marginRight: 4, verticalAlign: 'middle' }} />
             {errors.district}
+          </span>
+        )}
+      </div>
+
+      {/* Mandal */}
+      <div className="input-group">
+        <span className="input-icon">
+          <AccountBalanceIcon />
+        </span>
+        <input
+          type="text"
+          name="mandal"
+          placeholder=" "
+          value={reportData.mandal}
+          onChange={handleChange}
+          className={`input-field ${errors.mandal ? 'input-error' : ''}`}
+          required
+        />
+        <label className="input-label">Mandal</label>
+        {errors.mandal && (
+          <span className="validation-error">
+            <ErrorIcon style={{ fontSize: 14, marginRight: 4, verticalAlign: 'middle' }} />
+            {errors.mandal}
           </span>
         )}
       </div>
