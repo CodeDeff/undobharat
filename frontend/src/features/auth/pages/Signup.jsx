@@ -1,30 +1,44 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import authService from '../services/authService'
 
 const Signup = () => {
+  const navigate = useNavigate();
 
-
-      const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     fullname: '',
     email: '',
     password: '',
     role: '',
-    secretCode:''
+    secretCode: ''
   });
+  const [error,setError]=useState('')
 
-    const nameRef= useRef(null);
+  const nameRef = useRef(null);
 
-    const handleChange = (e) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-
     });
-    }
+  }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("FormData:", formData);
-    }
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try{
+         console.log("FormData:", formData);
+    const response=await authService.signup(formData)
+    console.log("response:", response)
+    navigate("/auth/verify-otp", {
+      state: {
+        email: formData.email
+      }
+    });
+    }catch(error){
+      setError("User Already Exits")
+     }
+ 
+  }
 
 
     useEffect(()=>{
@@ -40,6 +54,10 @@ const Signup = () => {
             <h1 className="text-2xl font-bold text-white">Create Your Account</h1>
             <p className="text-indigo-100 mt-1">Join our community today</p>
         </div>
+        {
+          error &&
+        <p className="text-red-700 font-bold text-center mt-1">{error}</p>
+        }
         
                 <form   className="p-6 space-y-6" onSubmit={handleSubmit} >
             <div className="space-y-4">
@@ -144,10 +162,10 @@ const Signup = () => {
            
             </div>
             <div className="text-center text-sm text-gray-600">
-                Already have an account? 
-                <a href="./signin" className="link-signin text-indigo-600 hover:text-indigo-500 font-medium">
+                Already have an account?{' '}
+                <Link to="/auth/signin" className="link-signin text-indigo-600 hover:text-indigo-500 font-medium">
                     Login
-                </a>
+                </Link>
             </div>
             
 

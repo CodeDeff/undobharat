@@ -101,13 +101,13 @@ const UserProfilePage = () => {
       >
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {/* Left Column on Desktop / Top on Mobile */}
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <ProfileCard />
             <ReportNowButton />
           </Grid>
 
           {/* Right Column on Desktop / Bottom on Mobile */}
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <StatsGrid />
             <SearchFilters
               searchQuery={searchQuery}
