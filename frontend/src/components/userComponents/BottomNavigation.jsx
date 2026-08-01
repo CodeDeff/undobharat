@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
@@ -6,8 +7,35 @@ import HistoryIcon from '@mui/icons-material/History';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const BottomNavBar = () => {
-  // History is active by default: index 2
-  const [value, setValue] = useState(2);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const getTabValue = (pathname) => {
+    if (pathname === '/settings') return 3;
+    if (pathname === '/history') return 2;
+    if (pathname === '/support') return 1;
+    if (pathname === '/user/home' || pathname === '/') return 0;
+    return 0;
+  };
+
+  const handleTabChange = (event, newValue) => {
+    switch (newValue) {
+      case 0:
+        navigate('/');
+        break;
+      case 1:
+        navigate('/support');
+        break;
+      case 2:
+        navigate('/history');
+        break;
+      case 3:
+        navigate('/settings');
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <Paper
@@ -26,10 +54,8 @@ const BottomNavBar = () => {
     >
       <BottomNavigation
         showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
+        value={getTabValue(location.pathname)}
+        onChange={handleTabChange}
         sx={{
           height: 64,
           '& .MuiBottomNavigationAction-root': {
@@ -55,7 +81,7 @@ const BottomNavBar = () => {
         }}
       >
         <BottomNavigationAction
-          label="Process"
+          label="Home"
           icon={<AssignmentIcon />}
         />
         <BottomNavigationAction
