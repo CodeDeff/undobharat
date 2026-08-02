@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LessIcon from '@mui/icons-material/ExpandLess';
 
 import Header from '../../../components/userComponents/Header';
 import BottomNavBar from '../../../components/userComponents/BottomNavigation';
@@ -59,11 +60,18 @@ const History = () => {
     }
   };
 
+    const handleLess = () => {
+    if (hasLoadedMore) {
+      setReportsList(initialHistoryReports);
+      setHasLoadedMore(false);
+    }
+  };
+
   return (
     <Box
       sx={{
         backgroundColor: '#F9FAFB',
-        minHeight: '100vh',
+        minHeight: '110vh',
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -168,7 +176,7 @@ const History = () => {
 
                 {/* Load More Button */}
                 {!hasLoadedMore && (
-                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 2 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 7 }}>
                     <Button
                       variant="outlined"
                       endIcon={<ExpandMoreIcon />}
@@ -193,6 +201,36 @@ const History = () => {
                       }}
                     >
                       Load More Reports
+                    </Button>
+                  </Box>
+                )}
+
+                 {hasLoadedMore && (
+                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 7 }}>
+                    <Button
+                      variant="outlined"
+                      endIcon={<LessIcon />}
+                      onClick={handleLess}
+                      aria-label="Show less reports from history"
+                      sx={{
+                        borderRadius: '12px',
+                        textTransform: 'none',
+                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        px: 4,
+                        py: 1.25,
+                        borderColor: '#CBD5E1',
+                        color: '#475569',
+                        backgroundColor: '#FFFFFF',
+                        fontFamily: '"Inter", sans-serif',
+                        '&:hover': {
+                          borderColor: '#2563EB',
+                          color: '#2563EB',
+                          backgroundColor: '#EFF6FF',
+                        },
+                      }}
+                    >
+                      Show Less Reports
                     </Button>
                   </Box>
                 )}

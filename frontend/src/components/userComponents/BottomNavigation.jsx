@@ -11,26 +11,26 @@ const BottomNavBar = () => {
   const location = useLocation();
 
   const getTabValue = (pathname) => {
-    if (pathname === '/settings') return 3;
-    if (pathname === '/history') return 2;
-    if (pathname === '/support') return 1;
-    if (pathname === '/user/home' || pathname === '/') return 0;
+    if (pathname === '/user/settings') return 3;
+    if (pathname === '/user/history') return 2;
+    if (pathname === '/user/support') return 1;
+    if (pathname === '/user/home' ) return 0;
     return 0;
   };
 
   const handleTabChange = (event, newValue) => {
     switch (newValue) {
       case 0:
-        navigate('/');
+        navigate('/user/home');
         break;
       case 1:
-        navigate('/support');
+        navigate('/user/support');
         break;
       case 2:
-        navigate('/history');
+        navigate('/user/history');
         break;
       case 3:
-        navigate('/settings');
+        navigate('/user/settings');
         break;
       default:
         break;
@@ -38,10 +38,12 @@ const BottomNavBar = () => {
   };
 
   return (
+    
     <Paper
       sx={{
         position: 'fixed',
         bottom: 0,
+        top: 'auto',
         left: '50%',
         transform: 'translateX(-50%)',
         width: '100%',
@@ -52,6 +54,7 @@ const BottomNavBar = () => {
       }}
       elevation={3}
     >
+      
       <BottomNavigation
         showLabels
         value={getTabValue(location.pathname)}

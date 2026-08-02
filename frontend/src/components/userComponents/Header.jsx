@@ -51,10 +51,9 @@ const Header = () => {
         >
           <Box
             sx={{
-              width: 38,
-              height: 38,
-              backgroundColor: '#2563EB',
-              borderRadius: '50%',
+              width: 45,
+              height: 45,
+               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -101,7 +100,7 @@ const Header = () => {
           </IconButton>
 
           <Avatar
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
+            src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png"
             alt="User Profile"
             sx={{
               width: 36,

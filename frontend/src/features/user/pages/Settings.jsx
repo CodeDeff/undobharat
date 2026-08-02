@@ -50,6 +50,7 @@ const Settings = () => {
 
   const handleLogout = () => {
     console.log('Logout');
+    navigate('/auth/signin');
   };
 
   const cardStyle = {
@@ -95,6 +96,19 @@ const Settings = () => {
     color: '#1F2937',
     fontFamily: '"Inter", sans-serif',
   };
+
+  const SettingsListText = ({ primary, secondary }) => (
+    <Box sx={{ flex: 1, minWidth: 0 }}>
+      <Typography component="span" sx={primaryTextStyle}>
+        {primary}
+      </Typography>
+      {secondary ? (
+        <Typography component="p" sx={{ fontSize: '0.8rem', color: '#6B7280', mt: 0.25 }}>
+          {secondary}
+        </Typography>
+      ) : null}
+    </Box>
+  );
 
   return (
     <Box
@@ -159,10 +173,7 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <PersonOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText
-                    primary="Edit Profile"
-                    primaryTypographyProps={primaryTextStyle}
-                  />
+                  <SettingsListText primary="Edit Profile" />
                   <ChevronRightIcon sx={{ color: '#9CA3AF' }} />
                 </ListItem>
                 <Divider component="li" sx={{ borderColor: '#F3F4F6' }} />
@@ -175,10 +186,7 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <LockOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText
-                    primary="Change Password"
-                    primaryTypographyProps={primaryTextStyle}
-                  />
+                  <SettingsListText primary="Change Password" />
                   <ChevronRightIcon sx={{ color: '#9CA3AF' }} />
                 </ListItem>
               </List>
@@ -192,18 +200,16 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <NotificationsNoneOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText
+                  <SettingsListText
                     primary="Push Notifications"
                     secondary="Receive instant updates about your reports"
-                    primaryTypographyProps={primaryTextStyle}
-                    secondaryTypographyProps={{ fontSize: '0.8rem', color: '#6B7280' }}
                   />
                   <ListItemSecondaryAction sx={{ right: 24 }}>
                     <Switch
                       edge="end"
                       checked={pushNotifications}
                       onChange={(e) => setPushNotifications(e.target.checked)}
-                      inputProps={{ 'aria-label': 'Push Notifications' }}
+                      slotProps={{ input: { 'aria-label': 'Push Notifications' } }}
                       sx={{
                         '& .MuiSwitch-switchBase.Mui-checked': { color: '#2563EB' },
                         '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#2563EB' },
@@ -216,18 +222,16 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <EmailOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText
+                  <SettingsListText
                     primary="Email Notifications"
                     secondary="Receive weekly digest and account alerts"
-                    primaryTypographyProps={primaryTextStyle}
-                    secondaryTypographyProps={{ fontSize: '0.8rem', color: '#6B7280' }}
                   />
                   <ListItemSecondaryAction sx={{ right: 24 }}>
                     <Switch
                       edge="end"
                       checked={emailNotifications}
                       onChange={(e) => setEmailNotifications(e.target.checked)}
-                      inputProps={{ 'aria-label': 'Email Notifications' }}
+                      slotProps={{ input: { 'aria-label': 'Email Notifications' } }}
                       sx={{
                         '& .MuiSwitch-switchBase.Mui-checked': { color: '#2563EB' },
                         '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#2563EB' },
@@ -246,10 +250,7 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <ShieldOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText
-                    primary="Privacy Policy"
-                    primaryTypographyProps={primaryTextStyle}
-                  />
+                  <SettingsListText primary="Privacy Policy" />
                   <ChevronRightIcon sx={{ color: '#9CA3AF' }} />
                 </ListItem>
                 <Divider component="li" sx={{ borderColor: '#F3F4F6' }} />
@@ -257,10 +258,7 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <DescriptionOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText
-                    primary="Terms & Conditions"
-                    primaryTypographyProps={primaryTextStyle}
-                  />
+                  <SettingsListText primary="Terms & Conditions" />
                   <ChevronRightIcon sx={{ color: '#9CA3AF' }} />
                 </ListItem>
               </List>
@@ -280,10 +278,7 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <HelpOutlineOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText
-                    primary="Help Center"
-                    primaryTypographyProps={primaryTextStyle}
-                  />
+                  <SettingsListText primary="Help Center" />
                   <ChevronRightIcon sx={{ color: '#9CA3AF' }} />
                 </ListItem>
                 <Divider component="li" sx={{ borderColor: '#F3F4F6' }} />
@@ -297,10 +292,7 @@ const Settings = () => {
                   <ListItemIcon sx={iconStyle}>
                     <SupportAgentIcon />
                   </ListItemIcon>
-                  <ListItemText
-                    primary="Contact Support"
-                    primaryTypographyProps={primaryTextStyle}
-                  />
+                  <SettingsListText primary="Contact Support" />
                   <ChevronRightIcon sx={{ color: '#9CA3AF' }} />
                 </ListItem>
               </List>
@@ -314,10 +306,9 @@ const Settings = () => {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box
                       sx={{
-                        width: 36,
-                        height: 36,
-                        backgroundColor: '#2563EB',
-                        borderRadius: '50%',
+                        width: 90,
+                        height: 90,
+                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -360,7 +351,7 @@ const Settings = () => {
             </Card>
 
             {/* Logout Button */}
-            <Box sx={{ mt: 4, mb: 2, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ mt: 4, mb: 7, display: 'flex', justifyContent: 'center' }}>
               <Button
                 variant="outlined"
                 color="error"
