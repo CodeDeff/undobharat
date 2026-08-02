@@ -122,7 +122,7 @@ const Support = () => {
     <Box
       sx={{
         backgroundColor: '#F9FAFB',
-        minHeight: '100vh',
+        minHeight: '100%',
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -517,8 +517,8 @@ const Support = () => {
             {/* Action Buttons Section */}
             <Box
               sx={{
-                mt: 4,
-                mb: 2,
+                mt: 1,
+                mb: 6,
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'row' },
                 justifyContent: 'center',

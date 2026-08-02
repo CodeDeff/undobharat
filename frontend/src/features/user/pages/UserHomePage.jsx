@@ -13,7 +13,7 @@ import { CardSkeleton } from '../../../components/dashboardComponents/SkeletonLo
 import EmptyStateCard from '../../../components/dashboardComponents/EmptyStateCard';
 import { sampleHomeReports } from '../../../data/sampleHome';
 
-const UserProfilePage = () => {
+const UserHomePage = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
@@ -120,4 +120,4 @@ const UserProfilePage = () => {
   );
 };
 
-export default UserProfilePage;
+export default UserHomePage;
