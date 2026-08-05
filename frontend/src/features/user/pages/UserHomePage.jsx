@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Grid, Container } from '@mui/material';
 import Header from '../../../components/userComponents/Header';
 import ProfileCard from '../../../components/userComponents/ProfileCard';
@@ -9,52 +9,24 @@ import ReportNowButton from '../../../components/userComponents/ReportNowButton'
 import ReportsList from '../../../components/userComponents/ReportsList';
 import LoadMoreReports from '../../../components/userComponents/LoadMoreReports';
 import BottomNavBar from '../../../components/userComponents/BottomNavigation';
+import { CardSkeleton } from '../../../components/dashboardComponents/SkeletonLoader';
+import EmptyStateCard from '../../../components/dashboardComponents/EmptyStateCard';
+import { sampleHomeReports } from '../../../data/sampleHome';
 
-const sampleReports = [
-  {
-    id: 1,
-    title: 'Identity Discrepancy',
-    category: 'Verification',
-    location: 'New Delhi, DL',
-    date: 'Oct 24, 2023',
-    status: 'Pending',
-    priority: 'High Priority',
-  },
-  {
-    id: 2,
-    title: 'Address Re-validation',
-    category: 'Residency',
-    location: 'Mumbai, MH',
-    date: 'Oct 20, 2023',
-    status: 'In Progress',
-    priority: 'Standard',
-  },
-  {
-    id: 3,
-    title: 'Tax Filing Amendment',
-    category: 'Finance',
-    location: 'Bangalore, KA',
-    date: 'Oct 15, 2023',
-    status: 'Resolved',
-    priority: 'Standard',
-  },
-  {
-    id: 4,
-    title: 'Duplicate Profile Merge',
-    category: 'Profile',
-    location: 'Global',
-    date: 'Oct 10, 2023',
-    status: 'Rejected',
-    priority: 'Standard',
-  },
-];
-
-const UserProfilePage = () => {
+const UserHomePage = () => {
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Interactive filtering logic
-  const filteredReports = sampleReports.filter((report) => {
+  const filteredReports = sampleHomeReports.filter((report) => {
     const matchesSearch =
       report.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       report.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -96,7 +68,7 @@ const UserProfilePage = () => {
           flexGrow: 1,
           px: { xs: 0, sm: 3, md: 4 },
           py: { xs: 2, sm: 3, md: 4 },
-          pb: 12, // extra padding for bottom navigation
+          pb: 12,
         }}
       >
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
@@ -116,8 +88,28 @@ const UserProfilePage = () => {
               onSortClick={handleSortClick}
             />
             <StatusTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            <ReportsList reports={filteredReports} />
-            <LoadMoreReports onClick={handleLoadMore} />
+
+            {loading ? (
+              <Box sx={{ mt: 2 }}>
+                <CardSkeleton />
+                <CardSkeleton />
+              </Box>
+            ) : filteredReports.length > 0 ? (
+              <>
+                <ReportsList reports={filteredReports} />
+                <LoadMoreReports onClick={handleLoadMore} />
+              </>
+            ) : (
+              <EmptyStateCard
+                title="No reports found."
+                description="No reports match your current search or filter criteria."
+                actionLabel="Clear Filters"
+                onActionClick={() => {
+                  setSearchQuery('');
+                  setActiveTab('All');
+                }}
+              />
+            )}
           </Grid>
         </Grid>
       </Container>
@@ -128,4 +120,4 @@ const UserProfilePage = () => {
   );
 };
 
-export default UserProfilePage;
+export default UserHomePage;

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import OTPInput from '../components/OTPInput';
+import authServices from '../services/authService';
 
-const FAKE_OTP = '1234';
+
 
 const VerifyOTP = () => {
   const location = useLocation();
@@ -17,6 +18,8 @@ const VerifyOTP = () => {
   const [countdown, setCountdown] = useState(30);
   const [isTimerActive, setIsTimerActive] = useState(true);
 
+
+ 
   // Timer effect for Resend OTP countdown
   useEffect(() => {
     let timer = null;
@@ -38,7 +41,7 @@ const VerifyOTP = () => {
     if (error) setError('');
   };
 
-  const handleVerify = (e) => {
+  const handleVerify =async (e) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
@@ -55,31 +58,43 @@ const VerifyOTP = () => {
       return;
     }
 
-    if (fullOtp !== FAKE_OTP) {
+    const res=await authServices.verifyOtp({email, otp: fullOtp});
+    console.log(res.data);
+  
+    if(res.data.success){
+      setSuccessMessage('OTP verified successfully! Redirecting to login...');
+      setTimeout(() => {
+        navigate('/auth/signin');
+      }, 2000);
+    }else{
       setError('Incorrect OTP. Please try again.');
-      return;
     }
 
-    // Success -> Navigate automatically to Login
-    navigate('/auth/signin');
+  
   };
 
-  const handleResend = () => {
+  const handleResend = async() => {
     if (isTimerActive) return;
 
-    // Reset OTP input, trigger success toast/message, and restart 30s countdown
-    setOtp(['', '', '', '']);
-    setError('');
-    setSuccessMessage('OTP resent successfully.');
-    setCountdown(30);
-    setIsTimerActive(true);
+    try{
+      await authServices.sendOTP({email});
+      setOtp(['', '', '', '']);
+      setError('');
+      setSuccessMessage('OTP resent successfully.');
+      setCountdown(30);
+      setIsTimerActive(true);
+      // Reset OTP input, trigger success toast/message, and restart 30s countdown
+      // Auto dismiss success message after 4 seconds
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 4000);
+    }
+    catch(error){
+      setError('Failed to resend OTP. Please try again later.');
+      console.error('Resend OTP error:', error);
+    }
 
-    // Auto dismiss success message after 4 seconds
-    setTimeout(() => {
-      setSuccessMessage('');
-    }, 4000);
-  };
-
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
@@ -100,7 +115,7 @@ const VerifyOTP = () => {
             </p>
             <p className="text-sm text-gray-600">
               OTP has been sent to{' '}
-              <span className="font-semibold text-gray-900 break-all">{email}</span>
+              <span className="font-semibold text-gray-900 break-all">{email.split('@')[0]}@{email.split('@')[1]}</span>
             </p>
           </div>
 

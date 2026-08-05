@@ -8,6 +8,7 @@ import VerifiedIdentityCard from "../../../components/Report/VerifiedIdentityCar
 import IdentityInformation from "../../../components/Report/IdentityInformation";
 import SecurityNotice from "../../../components/Report/SecurityNotice";
 import BottomNavigation from "../../../components/Report/BottomNavigation";
+import BottomNavBar from "../../../components/userComponents/BottomNavigation";
 
 import IssueDetails from "../../../components/Report/IssueDetails";
 import LocationDetails from "../../../components/Report/LocationDetails";
@@ -408,10 +409,9 @@ const ReportNow = () => {
       </main>
 
       {/* Sticky Bottom Navigation Bar */}
-      <BottomNavigation />
+      <BottomNavBar />
 
-      <Footer />
-    </div>
+     </div>
   );
 };
 
