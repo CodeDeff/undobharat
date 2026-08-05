@@ -15,6 +15,7 @@ const Signin = () => {
     const[data, setData]=useState(formdata)
 
   const handleChange=(e)=>{
+    SetErrormsg('')
       setData({
         ...data,
         [e.target.name]:e.target.value
@@ -25,14 +26,15 @@ const Signin = () => {
   const handleSubmit=async(e)=>{
     e.preventDefault();
     try {
-      const response= await authService.login(data);
-    console.log(response.data.data.token);
+      if(!data.email || !data.password){
+        SetErrormsg("Please fill all the fields")
+        return;
+      }
+       await authService.login(data);
+  
      navigate('/')
     } catch (error) {
-      if(error.status===401){
-        SetErrormsg("Invalid email or password")
-       }
-      
+      SetErrormsg("Invalid email or password")
     }
   }
 
@@ -117,7 +119,7 @@ const Signin = () => {
 
           {/* Forgot Password */}
           <div className="text-right">
-            <a href="/forgot-password" className="text-sm text-blue-600 hover:underline">
+            <a href="/auth/forgot-password" className="text-sm text-blue-600 hover:underline">
               Forgot Password?
             </a>
           </div>
@@ -125,7 +127,7 @@ const Signin = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:cursor-pointer"
             onClick={handleSubmit}
           >
             Log In

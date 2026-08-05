@@ -11,6 +11,7 @@ function App() {
    <Router>
     <div >
        <Routes>
+      <Route path='/' element={<Home/>} />
        {AuthRoutes}
         {UserRoutes}
         <Route path='*' element={<WeAreWorking/>} />
