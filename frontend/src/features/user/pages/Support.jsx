@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import Header from '../../../components/userComponents/Header';
 import BottomNavBar from '../../../components/userComponents/BottomNavigation';
-import PageSkeleton from '../../../components/dashboardComponents/SkeletonLoader';
+import Loader from '../../../components/common/Loader';
 import {
   sampleSupportContact,
   sampleEmergencyHelplines,
@@ -164,7 +164,7 @@ const Support = () => {
         </Box>
 
         {loading ? (
-          <PageSkeleton />
+         <Loader size="lg" text="Loading Help Center..." />
         ) : (
           <>
             {/* Quick Actions Cards Section */}

@@ -8,6 +8,7 @@ import LessIcon from '@mui/icons-material/ExpandLess';
 import Header from '../../../components/userComponents/Header';
 import BottomNavBar from '../../../components/userComponents/BottomNavigation';
 import PageSkeleton from '../../../components/dashboardComponents/SkeletonLoader';
+import Loader from '../../../components/common/Loader'
 import ReportStatistics from '../../../components/historyComponents/ReportStatistics';
 import HistorySearchBar from '../../../components/historyComponents/HistorySearchBar';
 import StatusFilter from '../../../components/historyComponents/StatusFilter';
@@ -150,7 +151,7 @@ const History = () => {
         </Box>
 
         {loading ? (
-          <PageSkeleton />
+        <Loader size="lg" text="Loading History..." />
         ) : (
           <>
             {/* Statistics Summary Cards */}

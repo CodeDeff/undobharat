@@ -3,7 +3,7 @@ import { Card, CardContent, Avatar, Badge, Typography, Box, Chip } from '@mui/ma
 import VerifiedIcon from '@mui/icons-material/Verified';
 import StarIcon from '@mui/icons-material/Star';
 
-const ProfileCard = () => {
+const ProfileCard = ( {userData} ) => {
   return (
     <Card
       sx={{
@@ -45,7 +45,7 @@ const ProfileCard = () => {
           >
             <Avatar
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-              alt="Rahul Sharma"
+              alt={userData?.fullname || "User"}
               sx={{
                 width: 80,
                 height: 80,
@@ -65,7 +65,7 @@ const ProfileCard = () => {
                 mb: 0.5,
               }}
             >
-              Rahul Sharma
+              {userData?.fullname?.toUpperCase() || "User"}
             </Typography>
             <Typography
               variant="body2"
@@ -75,7 +75,7 @@ const ProfileCard = () => {
                 mb: 2,
               }}
             >
-              Premium Member since Oct 2023
+              {userData?.email || "User"}
             </Typography>
 
             {/* Badges */}
@@ -87,7 +87,7 @@ const ProfileCard = () => {
                 gap: 1.5,
               }}
             >
-              <Chip
+              {/* <Chip
                 icon={<VerifiedIcon sx={{ fontSize: '16px !important', color: '#10B981 !important' }} />}
                 label="KYC VERIFIED"
                 sx={{
@@ -112,7 +112,7 @@ const ProfileCard = () => {
                   fontFamily: '"Inter", sans-serif',
                   '& .MuiChip-label': { px: 1 },
                 }}
-              />
+              /> */}
             </Box>
           </Box>
         </Box>

@@ -26,15 +26,20 @@ const Signup = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try{
-    await authService.signup(formData)
+    setError('')
+    if(!formData.email || !formData.password || !formData.role || !formData.fullname) return setError("Enter All Fields")
+    // await authService.signup(formData)
     await authService.sendOTP({email: formData.email})
     navigate("/auth/verify-otp", {
       state: {
-        email: formData.email
+        fullname: formData.fullname,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
       }
     });
     }catch(error){
-      setError("User Already Exits")
+      setError(error.response?.data?.message || "Signup failed. Please try again.");
      }
  
   }
@@ -121,6 +126,7 @@ const Signup = () => {
                   type="text"
                   value={formData.role}
                   onChange={handleChange}
+                  required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 hover:cursor-pointer"
                 >
                   <option value="" disabled className="bg-slate-900 text-slate-400">
