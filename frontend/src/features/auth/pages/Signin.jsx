@@ -34,9 +34,10 @@ const Signin = () => {
   
      navigate('/')
     } catch (error) {
-      SetErrormsg("Invalid email or password")
+      SetErrormsg(error.response?.data?.message || "Login failed. Please try again.");
     }
   }
+
 
   useEffect(()=>{
     emailref.current.focus();

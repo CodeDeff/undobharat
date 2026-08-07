@@ -18,6 +18,7 @@ import {
 import Header from '../../../components/userComponents/Header';
 import BottomNavBar from '../../../components/userComponents/BottomNavigation';
 import PageSkeleton from '../../../components/dashboardComponents/SkeletonLoader';
+import Loader from '../../../components/common/Loader'
 import UpdatePassword from '../../../components/userComponents/UpdatePassword';
 import {
   sampleNotificationSettings,
@@ -199,7 +200,7 @@ const closePasswordForm = () => {
         </Box>
 
         {loading ? (
-          <PageSkeleton />
+          <Loader size="lg" text="Loading Settings..." />
         ) : (
           <>
             {/* Account Section */}

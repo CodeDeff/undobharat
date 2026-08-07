@@ -66,7 +66,7 @@ const ReportHistoryCard = ({ report }) => {
             REPORT ID: {report.reportId || `#UB-${report.id || '101'}`}
           </Typography>
 
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1} alignitems="center">
             <Chip
               label={report.status}
               size="small"

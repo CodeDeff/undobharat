@@ -11,6 +11,11 @@ const VerifyOTP = () => {
 
   // Retrieve email passed via React Router navigation state
   const email = location.state?.email || 'your email';
+  const fullname = location.state?.fullname || 'your name';
+  const password = location.state?.password || 'your password';
+  const role = location.state?.role || 'your role';
+
+  const formdata = { fullname, email, password, role };
 
   const [otp, setOtp] = useState(['', '', '', '']);
   const [error, setError] = useState('');
@@ -62,6 +67,7 @@ const VerifyOTP = () => {
     console.log(res.data);
   
     if(res.data.success){
+      await authServices.signup(formdata);
       setSuccessMessage('OTP verified successfully! Redirecting to login...');
       setTimeout(() => {
         navigate('/auth/signin');

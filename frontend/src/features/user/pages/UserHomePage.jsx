@@ -9,20 +9,34 @@ import ReportNowButton from '../../../components/userComponents/ReportNowButton'
 import ReportsList from '../../../components/userComponents/ReportsList';
 import LoadMoreReports from '../../../components/userComponents/LoadMoreReports';
 import BottomNavBar from '../../../components/userComponents/BottomNavigation';
-import { CardSkeleton } from '../../../components/dashboardComponents/SkeletonLoader';
+import Loader from '../../../components/common/Loader';
 import EmptyStateCard from '../../../components/dashboardComponents/EmptyStateCard';
 import { sampleHomeReports } from '../../../data/sampleHome';
+
+import { getUserData } from '../services/home.service.js';
+
 
 const UserHomePage = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const user = await getUserData();
+        console.log('User data fetched:', user?.data?.data);
+        setUserData(user?.data?.data);
+      } catch (err) {
+        console.error('Error fetching user data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // Interactive filtering logic
@@ -49,6 +63,14 @@ const UserHomePage = () => {
     console.log('Load more clicked');
   };
 
+  if (loading) {
+    return (
+      
+        <Loader size="xl" text="Loading Home..." />
+       
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -74,7 +96,7 @@ const UserHomePage = () => {
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {/* Left Column on Desktop / Top on Mobile */}
           <Grid size={{ xs: 12, md: 4 }}>
-            <ProfileCard />
+            <ProfileCard userData={userData} />
             <ReportNowButton />
           </Grid>
 
@@ -89,12 +111,7 @@ const UserHomePage = () => {
             />
             <StatusTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-            {loading ? (
-              <Box sx={{ mt: 2 }}>
-                <CardSkeleton />
-                <CardSkeleton />
-              </Box>
-            ) : filteredReports.length > 0 ? (
+            {filteredReports.length > 0 ? (
               <>
                 <ReportsList reports={filteredReports} />
                 <LoadMoreReports onClick={handleLoadMore} />
