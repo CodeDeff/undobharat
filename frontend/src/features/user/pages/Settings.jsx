@@ -18,6 +18,8 @@ import {
 import Header from '../../../components/userComponents/Header';
 import BottomNavBar from '../../../components/userComponents/BottomNavigation';
 import PageSkeleton from '../../../components/dashboardComponents/SkeletonLoader';
+import Loader from '../../../components/common/Loader'
+import UpdatePassword from '../../../components/userComponents/UpdatePassword';
 import {
   sampleNotificationSettings,
   sampleAppInfo,
@@ -35,11 +37,14 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+//services
+import settingsService from '../services/settings.service';
 const Settings = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [pushNotifications, setPushNotifications] = useState(sampleNotificationSettings.push);
   const [emailNotifications, setEmailNotifications] = useState(sampleNotificationSettings.email);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -48,10 +53,28 @@ const Settings = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleLogout = () => {
-    console.log('Logout');
-    navigate('/auth/signin');
+  const handleLogout = async() => {
+  try{
+    const con=confirm("Are you sure you want to logout?");
+    if(con){
+     await settingsService.logout();
+    navigate('/');
+   }
+   else{
+    return;
+   }
+  }
+  catch(error){
+    console.error('Logout failed:', error);
+  }
   };
+const showEditablePassword = () => {
+  setShowPasswordForm(true)
+}
+
+const closePasswordForm = () => {
+  setShowPasswordForm(false)
+}
 
   const cardStyle = {
     borderRadius: '16px',
@@ -122,6 +145,27 @@ const Settings = () => {
       {/* Reused Header */}
       <Header />
 
+      {showPasswordForm && (
+        <Box
+          sx={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1300,
+            backgroundColor: 'rgba(17, 24, 39, 0.45)',
+            backdropFilter: 'blur(6px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            px: 2,
+          }}
+          onClick={closePasswordForm}
+        >
+          <Box onClick={(e) => e.stopPropagation()}>
+            <UpdatePassword onClose={closePasswordForm} />
+          </Box>
+        </Box>
+      )}
+
       {/* Main Container */}
       <Container
         maxWidth="md"
@@ -156,7 +200,7 @@ const Settings = () => {
         </Box>
 
         {loading ? (
-          <PageSkeleton />
+          <Loader size="lg" text="Loading Settings..." />
         ) : (
           <>
             {/* Account Section */}
@@ -182,6 +226,7 @@ const Settings = () => {
                   role="button"
                   aria-label="Change Password"
                   sx={listItemStyle}
+                  onClick={showEditablePassword}
                 >
                   <ListItemIcon sx={iconStyle}>
                     <LockOutlinedIcon />

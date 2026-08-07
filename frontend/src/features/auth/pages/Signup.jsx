@@ -26,16 +26,20 @@ const Signup = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try{
-         console.log("FormData:", formData);
-    const response=await authService.signup(formData)
-    console.log("response:", response)
+    setError('')
+    if(!formData.email || !formData.password || !formData.role || !formData.fullname) return setError("Enter All Fields")
+    // await authService.signup(formData)
+    await authService.sendOTP({email: formData.email})
     navigate("/auth/verify-otp", {
       state: {
-        email: formData.email
+        fullname: formData.fullname,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
       }
     });
     }catch(error){
-      setError("User Already Exits")
+      setError(error.response?.data?.message || "Signup failed. Please try again.");
      }
  
   }
@@ -122,6 +126,7 @@ const Signup = () => {
                   type="text"
                   value={formData.role}
                   onChange={handleChange}
+                  required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 hover:cursor-pointer"
                 >
                   <option value="" disabled className="bg-slate-900 text-slate-400">
@@ -158,7 +163,7 @@ const Signup = () => {
             )}
 
                     {/* registerButton */}
-             <input type="submit"  className=" w-70 ml-13 text-gray-700 hover:text-blue-500 font-medium border-2 border-solid hover:cursor-pointer mt-2 px-3 py-2  rounded"  value={"Register"}/>
+             <input type="submit"  className=" w-70 ml-13 text-gray-700 hover:text-blue-500 font-medium border-2 border-solid hover:cursor-pointer mt-2 px-3 py-2  rounded"  value={"Send OTP"}/>
            
             </div>
             <div className="text-center text-sm text-gray-600">
