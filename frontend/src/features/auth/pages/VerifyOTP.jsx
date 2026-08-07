@@ -50,7 +50,8 @@ const VerifyOTP = () => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
-
+try {
+  
     const fullOtp = otp.join('');
 
     if (!fullOtp) {
@@ -75,6 +76,11 @@ const VerifyOTP = () => {
     }else{
       setError('Incorrect OTP. Please try again.');
     }
+} catch (error) {
+  console.error(error);
+  setSuccessMessage('');
+  setError(error.message.includes("400")?"Incorrect OTP. Please try again.":"Failed to verify OTP. Please try again.");
+}
 
   
   };
@@ -120,8 +126,9 @@ const VerifyOTP = () => {
               Verification Code Sent
             </p>
             <p className="text-sm text-gray-600">
-              OTP has been sent to{' '}
-              <span className="font-semibold text-gray-900 break-all">{email.split('@')[0]}@{email.split('@')[1]}</span>
+              OTP has been sent to{''}
+              <span className="font-semibold text-gray-800 break-all">{email.split('@')[0]}@{email.split('@')[1]}</span> <br/>
+              <span className="font-semibold text-gray-800 break-all">Valid for 3 Minutes</span>
             </p>
           </div>
 
