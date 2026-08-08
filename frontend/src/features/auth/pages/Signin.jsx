@@ -138,7 +138,7 @@ const Signin = () => {
             onClick={handleSubmit}
           >
             {loading ? (
-              <span className="animate-spin"></span>
+              "Logging In.."
             ) : (
               "Log In"
             )}
