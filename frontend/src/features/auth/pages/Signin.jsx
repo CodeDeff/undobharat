@@ -5,6 +5,7 @@ import authService from '../services/authService'
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errormsg,SetErrormsg]=useState('')
+  const [loading,setLoading]=useState(false);
   const emailref= useRef(null);
   const navigate=useNavigate();
 
@@ -26,6 +27,7 @@ const Signin = () => {
   const handleSubmit=async(e)=>{
     e.preventDefault();
     try {
+      setLoading(true);
       if(!data.email || !data.password){
         SetErrormsg("Please fill all the fields")
         return;
@@ -35,6 +37,9 @@ const Signin = () => {
      navigate('/')
     } catch (error) {
       SetErrormsg(error.response?.data?.message || "Login failed. Please try again.");
+    }
+    finally{
+      setLoading(false);
     }
   }
 
@@ -128,10 +133,15 @@ const Signin = () => {
           {/* Submit Button */}
           <button
             type="submit"
+            disabled={loading}
             className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:cursor-pointer"
             onClick={handleSubmit}
           >
-            Log In
+            {loading ? (
+              <span className="animate-spin"></span>
+            ) : (
+              "Log In"
+            )}
           </button>
 
           {/* Sign Up Link */}
