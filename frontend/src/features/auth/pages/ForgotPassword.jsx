@@ -6,6 +6,7 @@ const ForgotPassword = () => {
   const [errormsg, setErrormsg] = useState('')
   const [successmsg, setSuccessmsg] = useState('')
   const [currentStep, setCurrentStep] = useState(1)
+  const [loading,setLoading]=useState(false);
   const emailref = useRef(null)
   const navigate = useNavigate()
 
@@ -28,8 +29,8 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     setErrormsg('')
-
     try {
       if (!data.email) {
         setErrormsg('Please fill all the fields')
@@ -42,23 +43,27 @@ const ForgotPassword = () => {
         return
       }
 
-      const res = await authService.sendOTP({ email: data.email })
+      const res = await authService.sendOTP({ email: data.email, forgot: true })
       console.log(res)
-      setSuccessmsg('OTP sent to your email. Please check your inbox.')
+      setSuccessmsg('OTP sent successfully.')
       setCurrentStep(2)
       setData({
         ...data,
         otp: '',
-        password: ''
+        newPassword: ''
       })
     } catch (error) {
-      console.error(error)
-      setErrormsg(error.message)
+       setErrormsg(error.message.includes(404)? 'User Not Found' :'Server Error!' )
+    }
+    finally{
+      setLoading(false);
     }
   }
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault()
+    setLoading(true)
+    
     try {
       if (!data.otp) {
         setErrormsg('Please fill all the fields')
@@ -75,10 +80,14 @@ const ForgotPassword = () => {
     } catch (error) {
       setErrormsg(error.message)
     }
+    finally{
+      setLoading(false)
+    }
   }
 
   const handleResetPassword = async (e) => {
     e.preventDefault()
+    setLoading(true)
     try {
       if (!data.newPassword) {
         setErrormsg('Please fill all the fields')
@@ -98,6 +107,9 @@ const ForgotPassword = () => {
     } catch (error) {
       setErrormsg(error.message)
     }
+    finally{
+      setLoading(false)
+    }
   }
 
   useEffect(()=>{
@@ -114,11 +126,17 @@ const ForgotPassword = () => {
           <h1 className="text-3xl font-bold text-gray-800">Forgot Password</h1>
           <p className="text-sm text-gray-500">Enter your email to reset your password</p>
         </div>
-        {
-          errormsg &&
-        <p className="text-center text-sm text-red-700">{errormsg}</p>
-        }
-                <p className="text-center text-lg text-green-600">{successmsg}</p>
+        {errormsg && (
+            <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg border border-red-200 text-center font-medium transition-all">
+              {errormsg}
+            </div>
+          )}
+
+         {successmsg && (
+            <div className="bg-green-50 text-green-700 text-sm p-3 rounded-lg border border-green-200 text-center font-medium transition-all">
+              {successmsg}
+            </div>
+          )}
 
         {/* Form */}
         <form className="space-y-5">
@@ -182,7 +200,9 @@ const ForgotPassword = () => {
             className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:cursor-pointer"
             onClick={currentStep === 1 ? handleSubmit : currentStep === 2 ? handleVerifyOTP : handleResetPassword}
           >
-            {currentStep === 1 ? 'Send OTP' : currentStep === 2 ? 'Verify OTP' : 'Reset Password'}
+            {currentStep === 1 ? loading ?'Sending OTP': 'Send OTP' :
+             currentStep === 2 ? loading ?'Verifying OTP': 'Verify OTP' : 
+             loading? 'Reseting Password' : 'Reset Password'}
           </button>
         </form>
       </div>
