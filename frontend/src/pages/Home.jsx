@@ -22,7 +22,7 @@ const Home = () => {
       // else alert("Please Login..")
    } catch (error) {
     console.log("Error:", error)
-    alert("Unauthorized User!")
+    navigate('/auth/signin')
    }
     // navigate('/user/home')
   }

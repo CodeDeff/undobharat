@@ -27,7 +27,6 @@ const UserHomePage = () => {
       try {
         setLoading(true);
         const user = await getUserData();
-        console.log('User data fetched:', user?.data?.data);
         setUserData(user?.data?.data);
       } catch (err) {
         console.error('Error fetching user data:', err);
