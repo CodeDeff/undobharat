@@ -58,10 +58,11 @@ const Signin = () => {
           <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
           <p className="text-sm text-gray-500">Login to continue to your account</p>
         </div>
-        {
-          errormsg &&
-        <p className="text-center text-sm text-red-700">{errormsg}</p>
-        }
+         {errormsg && (
+            <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg border border-red-200 text-center font-medium transition-all">
+              {errormsg}
+            </div>
+          )}
         {/* Form */}
         <form className="space-y-5">
 
