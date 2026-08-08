@@ -21,6 +21,7 @@ const VerifyOTP = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [countdown, setCountdown] = useState(30);
+  const [loading,setLoading] = useState(false)
   const [isTimerActive, setIsTimerActive] = useState(true);
 
 
@@ -134,8 +135,14 @@ try {
 
           {/* Success Banner */}
           {successMessage && (
-            <div className="bg-emerald-50 text-emerald-700 text-sm p-3 rounded-lg border border-emerald-200 text-center font-medium transition-all">
+            <div className="bg-green-50 text-green-700 text-sm p-3 rounded-lg border border-green-200 text-center font-medium transition-all">
               {successMessage}
+            </div>
+          )}
+          {/* error message */}
+          {error && (
+            <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg border border-red-200 text-center font-medium transition-all">
+              {error}
             </div>
           )}
 
@@ -154,12 +161,6 @@ try {
                 hasError={Boolean(error)}
               />
 
-              {/* Inline Validation Error Message */}
-              {error && (
-                <p className="text-center text-sm font-medium text-red-500 mt-2 animate-shake">
-                  {error}
-                </p>
-              )}
             </div>
 
             {/* Verify Button */}
@@ -167,7 +168,7 @@ try {
               type="submit"
               className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl shadow-md hover:shadow-indigo-200 transition duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Verify OTP
+              {loading?"Verifying...":"Verify OTP"}
             </button>
           </form>
 

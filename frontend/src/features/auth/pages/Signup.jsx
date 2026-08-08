@@ -13,11 +13,13 @@ const Signup = () => {
     secretCode: ''
   });
   const [error,setError]=useState('')
+  const [loading,setLoading]=useState(false)
 
   const nameRef = useRef(null);
 
   const handleChange = (e) => {
-    setFormData({
+    setError('')
+     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
@@ -25,12 +27,12 @@ const Signup = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+    setLoading(true)
     try{
     setError('')
     if(!formData.email || !formData.password || !formData.role || !formData.fullname) return setError("Enter All Fields")
-    // await authService.signup(formData)
     await authService.sendOTP({email: formData.email})
-    navigate("/auth/verify-otp", {
+   navigate("/auth/verify-otp", {
       state: {
         fullname: formData.fullname,
         email: formData.email,
@@ -41,6 +43,9 @@ const Signup = () => {
     }catch(error){
       setError(error.response?.data?.message || "Signup failed. Please try again.");
      }
+ finally{
+  setLoading(false);
+ }
  
   }
 
@@ -58,12 +63,15 @@ const Signup = () => {
             <h1 className="text-2xl font-bold text-white">Create Your Account</h1>
             <p className="text-indigo-100 mt-1">Join our community today</p>
         </div>
-        {
-          error &&
-        <p className="text-red-700 font-bold text-center mt-1">{error}</p>
-        }
+       
+
+         {error && (
+            <div className="bg-red-50 text-red-700 text-sm p-3 m-4 rounded-lg border border-red-200 text-center font-medium transition-all">
+              {error}
+            </div>
+          )}
         
-                <form   className="p-6 space-y-6" onSubmit={handleSubmit} >
+        <form   className="p-6 space-y-6" >
             <div className="space-y-4">
                 {/* <!-- Full Name --> */}
                 <div>
@@ -163,8 +171,14 @@ const Signup = () => {
             )}
 
                     {/* registerButton */}
-             <input type="submit"  className=" w-70 ml-13 text-gray-700 hover:text-blue-500 font-medium border-2 border-solid hover:cursor-pointer mt-2 px-3 py-2  rounded"  value={"Send OTP"}/>
-           
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:cursor-pointer"
+            onClick={handleSubmit}
+          >
+            {loading ? 'Sending Otp..' :'Send Otp' }
+          </button>           
             </div>
             <div className="text-center text-sm text-gray-600">
                 Already have an account?{' '}
